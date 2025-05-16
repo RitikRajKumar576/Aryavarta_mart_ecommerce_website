@@ -1,0 +1,39 @@
+<html>
+    {% load static %}
+    <head>
+        <title>Alter SlideShow</title>
+    </head>
+    <body>
+        <form action="{% if slideshow %}{% url 'slideshowalter' slideshow.id %}{% else %}{% url 'slideshowalter' %}{% endif %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Image Upload -->
+            <label for="image">Image</label>
+            <input type="file" name="image" id="image" {% if slideshow %}value="{{ slideshow.image.url }}"{% endif %}>
+
+            <!-- Heading Input -->
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" value="{{ slideshow.title|default_if_none:'' }}">
+
+            <!-- Price Input -->
+            <label for="caption">Caption</label>
+            <input type="text" name="caption" id="caption" value="{{ slideshow.caption|default_if_none:'' }}">
+
+            <!-- Description Input -->
+            <label for="order">Order</label>
+            <input type="number" name="order" id="order" value="{{ slideshow.order|default_if_none:'' }}">
+
+            <!-- Update/Add Button -->
+            <button type="submit">{% if slideshow %}Update{% else %}Add{% endif %}</button>
+        </form>
+
+        <!-- Delete Button -->
+        {% if slideshow %}
+        <form action="{% url 'slideshowalter' item_id=item_id %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="delete" value="true">
+            <button  onclick="return confirm('Are you sure you want to delete it?');" type="submit">Delete</button>
+        </form>
+        {% endif %}
+        
+    </body>
+</html>

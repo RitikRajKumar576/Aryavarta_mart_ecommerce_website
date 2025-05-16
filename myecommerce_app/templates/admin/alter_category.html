@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alter Category</title>
+    <style>
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Body Styling */
+body {
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+/* Container for centering the form */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 450px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s ease-out;
+    position: relative;
+}
+
+/* Form title (h2) - Positioned above the form */
+h2 {
+    font-size: 24px;
+    color: #333;
+    position: absolute;
+    top: -40px; /* Moves the heading slightly above the form */
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 20px;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Input fields */
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+/* Focus effect for inputs */
+input[type="text"]:focus {
+    border-color: #f7b42c;
+    box-shadow: 0 0 5px rgba(247, 180, 44, 0.8);
+}
+
+/* Submit button */
+button {
+    width: 100%;
+    padding: 14px;
+    background-color: #fc575e;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Hover effect on button */
+button:hover {
+    background-color: #f7b42c;
+    transform: scale(1.05);
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    h2 {
+        font-size: 20px;
+        top: -30px;
+    }
+
+    input[type="text"] {
+        font-size: 14px;
+    }
+
+    button {
+        font-size: 16px;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>
+            {% if category %}
+                {{ category.name }}
+            {% else %}
+                Add New Category
+            {% endif %}
+        </h2>
+        
+        <form method="POST">
+            {% csrf_token %}
+            
+            <!-- Category Name -->
+            <label for="category_name">Category Name:</label>
+            <input type="text" id="category_name" name="category_name" 
+                   value="{% if category %}{{ category.name }}{% else %}{% endif %}" required>
+    
+            <!-- Slug (Auto-generated) -->
+            <label for="slug">Slug:</label>
+            <input type="text" id="slug" name="slug" 
+                   value="{% if category %}{{ category.slug }}{% else %}{% endif %}" 
+                   required readonly>
+    
+            <!-- Button -->
+            <button type="submit">
+                {% if category %}
+                    Update Category
+                {% else %}
+                    Add Category
+                {% endif %}
+            </button>
+        </form>
+    </div>
+    
+    <script>
+        // Auto-generate slug from category name
+        document.getElementById("category_name").addEventListener("input", function () {
+            let slug = this.value.toLowerCase().trim().replace(/\s+/g, "-");  // Replace spaces with "-"
+            document.getElementById("slug").value = slug;
+        });
+    </script>
+    
+</body>
+
+</html>

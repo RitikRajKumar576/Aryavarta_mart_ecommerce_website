@@ -1,0 +1,39 @@
+<html>
+    {% load static %}
+    <head>
+        <title>Alter Product Cards</title>
+    </head>
+    <body>
+        <form action="{% if item %}{% url 'productcardsalter' item.id %}{% else %}{% url 'productcardsalter' %}{% endif %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Image Upload -->
+            <label for="image">Image</label>
+            <input type="file" name="image" id="image" {% if item %}value="{{ item.image.url }}"{% endif %}>
+
+            <!-- Heading Input -->
+            <label for="heading">Heading</label>
+            <input type="text" name="heading" id="heading" value="{{ item.heading|default_if_none:'' }}">
+
+            <!-- Price Input -->
+            <label for="price">Price</label>
+            <input type="number" name="price" id="price" value="{{ item.price|default_if_none:'' }}">
+
+            <!-- Description Input -->
+            <label for="description">Description</label>
+            <input type="text" name="description" id="description" value="{{ item.description|default_if_none:'' }}">
+
+            <!-- Update/Add Button -->
+            <button type="submit">{% if item %}Update{% else %}Add{% endif %}</button>
+        </form>
+
+        <!-- Delete Button -->
+        {% if item %}
+        <form action="{% url 'productcardsalter' item_id=item_id %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="delete" value="true">
+            <button  onclick="return confirm('Are you sure you want to delete it?');" type="submit">Delete</button>
+        </form>
+        {% endif %}
+        
+    </body>
+</html>

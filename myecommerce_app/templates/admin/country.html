@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Order Management - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <style>
+        /* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    background-color: #f4f4f4;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #2c3e50;
+    color: white;
+    padding: 20px;
+    position: fixed;
+    transition: width 0.3s;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li {
+    padding: 15px;
+    margin: 10px 0;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    font-size: 18px;
+}
+
+.sidebar ul li:hover {
+    background: #34495e;
+    border-radius: 5px;
+}
+
+/* Dropdown Button */
+.dropdown {
+    padding: 15px;
+    margin: 10px 0;
+}
+
+.dropbtn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: white;
+    padding: 15px;
+    display: block;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #34495e;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 5px;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+}
+
+.dropdown-content a:hover {
+    background-color: #2c3e50;
+}
+
+/* Hover to display dropdown */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* For responsiveness, hide the sidebar on small screens */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .dropdown-content {
+        min-width: 180px;
+    }
+}
+
+
+/* Main Content */
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+    width: 100%;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+/* Dark Mode Toggle */
+#darkModeToggle {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Cards */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Table */
+/* Scrollable Table */
+.table-container {
+    margin-top: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-height: 400px; /* Set max height */
+    overflow-y: auto; /* Enables vertical scroll */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Keep table header fixed */
+.table-container thead {
+    position: sticky;
+    top: 0;
+    background: #2c3e50;
+    color: white;
+    z-index: 2;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+table th {
+    background: #2c3e50;
+    color: white;
+}
+
+
+/* Style for the Delete link */
+.table-section table td a {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #e74c3c; /* Red color */
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 5px;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.table-section table td a:hover {
+    background-color: #c0392b; /* Darker red on hover */
+    transform: scale(1.05); /* Slight scale effect */
+}
+
+.table-section table td a:active {
+    background-color: #a93226; /* Even darker red on click */
+    transform: scale(0.95);
+}
+
+
+
+/* Dark Mode */
+.dark-mode {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+.dark-mode .sidebar {
+    background: #111;
+}
+
+.dark-mode .sidebar ul li:hover {
+    background: #222;
+}
+
+.dark-mode .card {
+    background: #333;
+}
+
+.dark-mode .table-container {
+    background: #333;
+}
+
+.dark-mode table th {
+    background: #444;
+}
+
+    </style>
+
+
+</head>
+<body >
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul>
+            <li><a href="{% url 'dashboard_panel' %}"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="{% url 'analytics' %}"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+
+            <li class="dropdown">
+                <a href="javascript:void(0)" class="dropbtn"><i class="fas fa-cogs"></i> Aryavarta</a>
+                <div class="dropdown-content">
+                    <a href="{% url 'brand' %}"> Brand</a>
+                    <a href="#"> Brand Offer</a>
+                    <a href="{% url 'category' %}"> Category</a>
+                    <a href="{% url 'comingsoon' %}"> Coming Soon</a>
+                    <a href="{% url 'view_contact_us' %}"> Contact Us</a>
+                    <a href="{% url 'productcards' %}"> Product Cards</a>
+                    <a href="{% url 'slideshow' %}"> Slideshow</a>
+                </div>
+            </li>
+
+            <li><a href="{% url 'configure_order' %}"><i class="fa-solid fa-cart-shopping"></i> Manage Order</a></li>
+            <li><a href="#"><i class="fas fa-users"></i> Users</a></li>
+            <li><a href="{% url 'admin_settings' %}"><i class="fas fa-cogs"></i> Settings</a></li>
+            <li><a href="{% url 'dashboard_login' %}"><i class="fas fa-sign-out-alt"></i> 
+                {% if request.session.dashboard_user_id %}
+                    Logout ({{ request.session.dashboard_user_id }})
+                {% else %}
+                <a href="{% url 'dashboard_login' %}">Login</a>
+                {% endif %}
+            </a></li>
+        </ul>
+    </div>
+    
+    <div class="main-content">
+        <header>
+            <h1 style="color:#34495e">Dashboard</h1>
+            <button id="toggle-theme">🌙</button>
+        </header>
+        
+        <br>
+        <br>
+        
+        <section class="table-section">
+            <h2>Add Country Details for Contact-Us</h2>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Country</th>
+                        <th>States</th> <!-- Changed to plural for clarity -->
+                        <th>Actions</th>
+                        <th>
+                            <center><a class="btn btn-add" href="{% url 'alter_country' %}">Add</a></center>
+                        </th>       
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contact in contacts %}
+                    <tr>
+                        <td>#{{ forloop.counter }}</td>
+                        <td>{{ contact.country }}</td>
+                        <td>
+                            <ul>
+                                {% for state in contact.states.all %}  <!-- ✅ Use the related_name -->
+                                    <li>{{ state.state }}</li>  <!-- ✅ Use correct field name -->
+                                {% empty %}
+                                    <li>No states available</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        
+        
+        
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Add smooth dropdown hover effect
+            const dropdown = document.querySelectorAll('.dropdown');
+        
+            dropdown.forEach(function (item) {
+                item.addEventListener('mouseenter', function () {
+                    const dropdownContent = item.querySelector('.dropdown-content');
+                    dropdownContent.style.display = 'block';
+                    dropdownContent.style.opacity = '1';
+                    dropdownContent.style.transition = 'opacity 0.3s ease-in-out';
+                });
+        
+                item.addEventListener('mouseleave', function () {
+                    const dropdownContent = item.querySelector('.dropdown-content');
+                    dropdownContent.style.display = 'none';
+                    dropdownContent.style.opacity = '0';
+                });
+            });
+        });
+        
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Check if dark mode is enabled in localStorage
+            if (localStorage.getItem("darkMode") === "enabled") {
+                document.body.classList.add("dark-mode");
+            }
+    
+            // Toggle button click event
+            document.getElementById("toggle-theme").addEventListener("click", function () {
+                document.body.classList.toggle("dark-mode");
+    
+                // Save the user's preference in localStorage
+                if (document.body.classList.contains("dark-mode")) {
+                    localStorage.setItem("darkMode", "enabled");
+                } else {
+                    localStorage.setItem("darkMode", "disabled");
+                }
+            });
+        });
+    </script>
+    
+</body>
+</html>
