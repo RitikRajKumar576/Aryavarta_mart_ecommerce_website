@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+  <head>
+    <title>Aryavarta Mart</title>
+    <!-- <link rel="icon" type="image/x-icon" href="/images/favicon.ico"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQeR2KW5u11EMUx0ah8oZ1yIdknoDJFvj5lGvCQ3aAhoh6sGdCMt5tbxg" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- /* Set the width of the side navigation to 250px */ -->
+    <script>
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+        document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+      }
+      /* Set the width of the side navigation to 0 and the left margin of the page content to 0, and the background color of body to white */
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+        document.body.style.backgroundColor = "white";
+      }
+    </script>
+
+    <script>
+      window.onload = function () {
+        setTimeout(function () {
+          document.querySelector(".header").classList.add("hide");
+        }, 1000); // Wait 1 seconds
+      };
+    </script>
+    <style>
+
+      /* General Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+}
+
+/* Cart Section */
+.cart-section {
+  width: 90%;
+  max-width: 1200px;
+  margin: 15px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cart-section h2 {
+  text-align: center;
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Cart Table */
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cart-table th,
+.cart-table td {
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  border: 1px solid black; /* Grid line for every cell */
+}
+
+.cart-table th {
+  background: #007bff;
+  color: white;
+  font-size: 18px;
+}
+
+.cart-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Product Info */
+.cart-item img {
+  width: 60px;
+  height: 60px;
+  border-radius: 5px;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.cart-item h3 {
+  font-size: 16px;
+  color: #333;
+}
+
+/* Quantity Controls */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity-controls button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.quantity-controls button:hover {
+  background: #0056b3;
+}
+
+.quantity-controls input {
+  width: 40px;
+  text-align: center;
+  font-size: 16px;
+  border: none;
+  margin: 0 5px;
+  background: transparent;
+}
+
+/* Remove Button */
+
+
+
+.remove-btn {
+  display: inline-block;
+  background: #dc3545;
+  color: white;
+  padding: 8px 15px;
+  font-size: 12px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.remove-btn:hover {
+  background: #c82333;
+  transform: scale(1.05);
+}
+
+
+
+.cart-total {
+
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 1300px;
+  margin: 20px auto;
+  border: 2px solid #000; /* Bold outer border */
+}
+
+.cart-total h3 {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.cart-total table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid black; /* Table border */
+}
+
+.cart-total th, .cart-total td {
+  
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid black; /* Grid line for every cell */
+  text-align: center;
+}
+
+
+
+.cart-total th {
+  background: #f8f9fa;
+  font-weight: bold;
+  text-align: center;
+}
+
+.total-row {
+  font-size: 18px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.checkout-btn {
+  display: block;
+  width: 100%;
+  background: #007bff;
+  color: white;
+  padding: 12px;
+  font-size: 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  margin-top: 15px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 2px solid black; /* Button border */
+}
+
+.checkout-btn:hover {
+  background: #388e3c;
+  transform: scale(1.02);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .cart-total {
+      width: 90%;
+  }
+}
+
+
+
+    </style>
+  </head>
+  <body>
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+        >&times;</a
+      >
+      <a href="{% url 'index' %}">Home</a>
+      <a href="{% url 'shop_products' %}">Shop</a>
+      <div id="mySidenav">
+        <button class="dropdown-btn">
+          Categories
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+          {% for category in categories %}
+          <a href="{% url 'category_products' slug=category.slug %}">{{ category.name }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      <a href="#">Clients</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <div id="mySidenav">
+        <button class="dropdown-btn">
+          Accounts
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+          {% if request.user.is_authenticated %}
+          <a href="{% url 'myprofile' %}"><strong>{{ request.user.username }}</a>
+          <a href="{% url 'my_cart' %}">Cart</a>
+          <a href="{% url 'wishlist' %}">Wishlist</a>
+          <a href="{% url 'my_orders' %}">Orders</a>
+          <a href="{% url 'logout' %}">Logout</a>
+          <!-- If user is not logged in, show Login -->
+          {% else %}
+          <a href="{% url 'login' %}">Login</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Use any element to open the sidenav -->
+
+    <div class="navbar">
+      <div class="topnav">
+        <div id="menu-icon">
+          <span onclick="openNav()">&#9776;</span>
+        </div>
+        <!-- Centered link -->
+        <div class="topnav-centered">
+          <a href="{% url 'index' %}" class="active">Home</a>
+        </div>
+
+        <!-- Left-aligned links (default) -->
+        <a href="#contact">Contact</a>
+
+    <!-- Right-aligned links -->
+    <div class="topnav-right">
+      <a href="#about">About</a>
+        <!-- If user is not logged in, show Login -->
+        {% if request.user.is_authenticated %}
+        <p style="color:crimson;">Logged in as: <strong style="color:chartreuse;">{{ request.user.username }}</strong></p>
+    </div>
+  </div>
+  <div id="locationDisplay" class="location"></div>
+</div>
+
+    <section class="cart-section">
+      <h2>My Cart</h2>
+      <div class="cart-container">
+        {% if cart_items %}
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in cart_items %}
+            <tr class="cart-item" data-item-id="{{ item.id }}">
+              <td>
+                <img src="{{ item.image.url }}" alt="{{ item.name }}" />
+                <h3>{{ item.name }}</h3>
+              </td>
+              <td class="price">₹{{ item.price|floatformat:2 }}/-</td>
+              <td>
+                <div class="quantity-controls">
+                  <button class="decrease" onclick="updateQuantity({{ item.id }}, -1)">-</button>
+                  <input type="number"class="quantity-input"id="hello"value="{{ item.quantity }}"min="1"readonly/>
+                  <button class="increase" onclick="updateQuantity({{ item.id }}, 1)">+</button>
+                </div>
+              </td>
+              <td class="price total-price">₹{{ item.total_price }}/-</td>
+              <td>
+                <a href="{% url 'remove_from_cart' item.id %}" class="remove-btn"><i class="fa-solid fa-trash"></i> Remove</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+<!-- Total Calculation in Bill Table Format -->
+<div class="cart-total">
+  <h3>Billing Summary</h3>
+  <table>
+      <tr>
+          <th>Description</th>
+          <th>Amount (₹)</th>
+      </tr>
+      <tr>
+          <td>Subtotal</td>
+          <td id="total-amount">₹{{ total_amount }}/-</td>
+      </tr>
+      <tr>
+          <td>GST (18%)</td>
+          <td id="gst">₹{{ gst }}/-</td>
+      </tr>
+      <tr class="total-row">
+          <td>Total (with GST)</td>
+          <td id="total-with-gst">₹{{ total_with_gst }}/-</td>
+      </tr>
+  </table>
+  <form action="{% url 'checkout' %}" method="POST">
+    {% csrf_token %}
+    {% for item in cart_items %}
+        <input type="hidden" name="product_ids[]" value="{{ item.id }}">
+        <input type="hidden" name="quantities[]" value="{{ item.quantity }}">
+    {% endfor %}
+    <a href="{% url 'checkout' %}" class="checkout-btn">Proceed to Checkout</a>
+</form>
+</div>
+
+
+
+
+        {% else %}
+        <p class="empty-cart">Your cart is empty.</p>
+        {% endif %}
+      </div>
+    </section>
+    {% else %}
+    <a href="{% url 'login' %}">My Profile</a>
+    {% endif %}
+    <section>
+      <div class="footer">
+        <p>&copy; 2025 Your Store. All rights reserved.</p>
+      </div>
+    </section>
+
+                                                    <!-- JQUERY Section -->
+
+    <script>
+      function updateQuantity(itemId, change) {
+        let row = document.querySelector(`[data-item-id='${itemId}']`);
+        let quantityInput = row.querySelector(".quantity-input");
+        let totalPriceElement = row.querySelector(".total-price");
+
+        let currentQuantity = parseInt(quantityInput.value);
+        let newQuantity = currentQuantity + change;
+
+        if (newQuantity < 1) return; // Prevent quantity from going below 1
+
+        fetch(`/update_cart/${itemId}/${newQuantity}/`, {
+          method: "POST",
+          headers: { "X-CSRFToken": "{{ csrf_token }}" },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              quantityInput.value = newQuantity;
+              totalPriceElement.textContent = `${data.item_total_price}/-`;
+
+              // Update the total amount, GST, and total with GST dynamically
+              document.getElementById(
+                "total-amount"
+              ).textContent = `${data.total_amount}/-`;
+              document.getElementById("gst").textContent = `${data.gst}/-`;
+              document.getElementById(
+                "total-with-gst"
+              ).textContent = `${data.total_with_gst}/-`;
+            }
+          });
+      }
+    </script>
+
+    <!-- SCroll Menu bar Dropdown Function -->
+    <script>
+      /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+      var dropdown = document.getElementsByClassName("dropdown-btn");
+      var i;
+
+      for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function () {
+          this.classList.toggle("active");
+          var dropdownContent = this.nextElementSibling;
+          if (dropdownContent.style.display === "block") {
+            dropdownContent.style.display = "none";
+          } else {
+            dropdownContent.style.display = "block";
+          }
+        });
+      }
+    </script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pwEEGJSiWmRPOEaZK5Etdj4AqwwFmrZeT3gNN5t93xp9hwbp4RA2PoF2oWfHkOj9"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

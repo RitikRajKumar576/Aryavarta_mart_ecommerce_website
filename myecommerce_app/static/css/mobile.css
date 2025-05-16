@@ -1,0 +1,677 @@
+* {
+  box-sizing: border-box;
+}
+
+/* Style the body */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background-color: white;
+  color: black;
+}
+
+body .button {
+  background-color: #000;
+}
+
+body .button:hover {
+  opacity: 0.7;
+}
+
+.dark-mode {
+  background-color: black;
+  color: white;
+}
+
+/* Header/logo Title */
+.header {
+  padding: 80px;
+  text-align: center;
+  background: #ff6ea1;
+  color: rgb(255, 255, 255);
+  transition: all 0.5s ease; /* Smooth transition */
+}
+
+/* Hidden Header Style */
+.header.hide {
+  display: none; /* Hides the header completely */
+}
+
+/* Increase the font size of the heading */
+.header h1 {
+  font-size: 40px;
+}
+
+/* Style the top navigation bar */
+.navbar {
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+  background-color: #333;
+  z-index: 1;
+}
+
+/* .navbar {
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    z-index: 1000; 
+} */
+
+/* Style the navigation bar links */
+.navbar a {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 20px;
+  text-decoration: none;
+}
+
+/* Right-aligned link */
+.navbar a.right {
+  float: right;
+}
+
+/* Change color on hover */
+.navbar a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.location {
+  font-size: 1rem;
+  margin-left: 1rem;
+  color: white;
+}
+
+/* Column container */
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  font-family: Arial, sans-serif;
+}
+
+.topnav #menu-icon {
+  display: flow-root;
+  text-align: center;
+  flex-grow: inherit;
+  position: relative;
+  right: 7px;
+  width: 30px;
+  height: 40px;
+  cursor: pointer;
+  z-index: 2;
+  color: #ddd;
+}
+
+.topnav #menu-icon span {
+  position: absolute;
+  top: 9px;
+  left: 9px;
+  width: 50%;
+  height: 2px;
+}
+.topnav #menu-icon span:hover {
+  color: #96ca13;
+}
+/* Links in the navbar */
+.topnav a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+/* Centered link container */
+.topnav-centered {
+  flex-grow: 2;
+  display: flow-root;
+  text-align: center;
+}
+
+/* Active link styling */
+.topnav a.active {
+  background-color: #aa041a;
+  color: white;
+  border-radius: 3px;
+}
+
+/* Hover effect for links */
+.topnav a:hover {
+  background-color: #96ca13;
+  color: black;
+  border-radius: 5px;
+}
+
+/* Right-aligned link container */
+.topnav-right {
+  display: flex;
+  gap: 10px;
+}
+
+/* The side navigation menu */
+.sidenav {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  bottom: -5%; /* Stay at the top */
+  left: 0;
+  background-color: #111; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+  color: #ddd;
+}
+
+.sidenav #mySidenav a,
+.dropdown-btn {
+  padding: 6px 8px 6px 33px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+
+.sidenav a:hover,
+.dropdown-btn:hover {
+  color: #aa041a;
+}
+
+.sidenav #mySidenav a:hover,
+.dropdown-btn:hover {
+  color: #aa041a;
+}
+.active {
+  background-color: #96ca13;
+  color: #aa041a;
+}
+
+.sidenav #mySidenav .dropdown-container {
+  display: none;
+  background-color: #262626;
+  padding-left: 8px;
+}
+
+.fa-caret-down {
+  float: right;
+  padding-right: 8px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+  transition: margin-left 0.5s;
+  padding: 20px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+  .sidenav a {
+    font-size: 18px;
+  }
+}
+
+/* Main column */
+.main {
+  -ms-flex: 70%; /* IE10 */
+  flex: 70%;
+  background-color: white;
+  padding: 20px;
+}
+
+/* Fake image */
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 10000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Caption text */
+.text {
+  color: red !important;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: red !important;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active,
+.dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .prev,
+  .next,
+  .text {
+    font-size: 11px;
+  }
+}
+
+
+
+
+
+
+/* My Cart Section */
+
+
+
+
+
+
+
+
+
+
+/* Mobile Products Section */
+/* #mobile-container {
+  max-width: 120%;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 80px; 
+}
+
+#mobile-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 410px;
+  flex: 0 0 auto; 
+  text-align: center;
+  font-family: arial;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.card:hover {
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  transform: translateY(-5px);
+}
+
+#mob {
+  background-color: white;
+  padding: 120px;
+  border: 1px solid #ddd;
+  padding-top: 12px;
+  border-radius: 5px;
+  text-align: center;
+  width: 500px;
+  position: relative; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-height: 450px;
+  overflow: hidden;
+}
+
+#mob img {
+  max-width: 100%;
+  height: auto;
+}
+
+.price {
+  color: green;
+  font-size: 1.5em;
+  margin-top: auto;
+}
+
+
+#mob button {
+  background-color: #e91e63;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  left: 20px;
+  border-radius: 5px;
+  position: absolute; 
+  bottom: 15px;
+  left: 50%; 
+  transform: translateX(-50%);
+}
+
+#mob button:hover {
+  background-color: #555;
+}
+
+
+.cart-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; 
+  margin-top: 18px;
+}
+
+
+.quantity-input {
+  width: 60px;
+  padding: 5px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+} */
+
+
+
+
+
+
+
+
+
+
+.checkout-section {
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 30px auto;
+}
+
+.checkout-title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1.5rem;  /* Medium size */
+  font-weight: bold;
+  color: #333;
+}
+
+.checkout-form label {
+  font-size: 1rem; /* Medium size */
+  font-weight: bold;
+}
+
+.checkout-form .form-group {
+  margin-bottom: 20px;
+}
+
+.checkout-form input,
+.checkout-form select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1rem; /* Medium size */
+}
+
+.checkout-form .payment-option {
+  margin-top: 20px;
+}
+
+.checkout-form .payment-method {
+  margin-bottom: 15px;
+}
+
+.payment-method label {
+  display: inline-block;
+  margin-right: 15px;
+  font-size: 1rem; /* Medium size */
+}
+
+.payment-method input[type="radio"] {
+  margin-right: 10px;
+}
+
+.dropdown-btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1rem; /* Medium size */
+}
+
+.dropdown-content {
+  display: none;
+  background-color: #f9f9f9;
+  padding: 12px;
+  border-radius: 5px;
+}
+
+.dropdown-content input[type="radio"] {
+  margin-right: 10px;
+}
+
+.payment-method input[type="radio"]:checked + label {
+  color: #4caf50;
+}
+
+.checkout-btn {
+  display: inline-block;
+  padding: 12px 30px;
+  font-size: 1.2rem;
+  background-color: #4caf50;
+  color: white;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.checkout-btn:hover {
+  background-color: #388e3c;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Footer */
+footer {
+  position: relative;
+  width: 100%;
+  background: #111;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  overflow: hidden;
+}
+
+.waves {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  background: url('https://i.imgur.com/5UdQxnh.png');
+  background-size: cover;
+  animation: waveAnimation 5s linear infinite;
+}
+
+@keyframes waveAnimation {
+  0% { background-position-x: 0; }
+  100% { background-position-x: 1000px; }
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin-top: 20px;
+}
+
+.social-icons li {
+  margin: 0 10px;
+}
+
+.social-icons a {
+  color: white;
+  font-size: 24px;
+  transition: 0.3s;
+}
+
+.social-icons a:hover {
+  color: #00aaff;
+  transform: translateY(-5px);
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 20px 0;
+}
+
+.menu li {
+  margin: 0 15px;
+}
+
+.menu a {
+  text-decoration: none;
+  color: white;
+  transition: 0.3s;
+}
+
+.menu a:hover {
+  color: #00ff88;
+  text-shadow: 0 0 5px #00ff88;
+}
+
+footer p {
+  font-size: 14px;
+  margin-top: 10px;
+  opacity: 0.8;
+}
+
+
+
+
+
+

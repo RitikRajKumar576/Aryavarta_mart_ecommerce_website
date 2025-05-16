@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <title>My Order - Aryavarta Mart</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/ai_animations.js' %}"></script>
+    <!-- <link rel="icon" type="image/x-icon" href="/images/favicon.ico"> -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQeR2KW5u11EMUx0ah8oZ1yIdknoDJFvj5lGvCQ3aAhoh6sGdCMt5tbxg"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'css/sample.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+
+  /* AI-Enhanced Order Section Styling */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f4f6f9;
+}
+
+
+.order-summary-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px; /* Space between sections */
+  width: 90%;
+  margin: auto;
+  padding: 50px 0;
+  position: relative;
+}
+
+/* Order Confirmation on the Left */
+.order-confirmation {
+  width: 48%;
+  display: flex;
+  justify-content:flex-start;
+}
+
+/* Stacking Order Cards (Only one visible) */
+.order-container {
+  position: relative;
+  margin: auto;
+  height: 450px;
+}
+
+.order-card {
+  width: 120%;
+  left:30px;
+  max-height: 600px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.order-card:not(:first-child) {
+  opacity: 0; /* Hide all except the first card */
+  transform: scale(0.9);
+}
+
+/* Button Style */
+/* Position Next Order Button */
+/* Button Styling */
+#nextOrder {
+  position: absolute;
+  bottom: -107px;
+  left: 115%;
+  transform: translateX(-50%);
+  display: block;
+  padding: 12px 20px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+#nextOrder:hover {
+  background-color: #0056b3;
+  transform: translateX(-50%) scale(1.1);
+}
+
+/* Ensure .order-container has relative positioning */
+
+
+
+/* Monthly Purchase on the Right */
+.monthly-purchase {
+  width: 45%;
+  overflow-y: auto;
+  padding: 10px,100px;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+}
+
+/* Vertical Divider */
+.vertical-line {
+  width: 3px;
+  height: 100%;
+  background-color: #ccc;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Title Animation */
+h2 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  background-image: linear-gradient(90deg, #ff8c00, #ff0080);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: colorChange 3s infinite alternate;
+}
+
+/* AI-Color Cycling Animation */
+@keyframes colorChange {
+  0% { background-image: linear-gradient(90deg, #ff8c00, #ff0080); }
+  50% { background-image: linear-gradient(90deg, #00c6ff, #0072ff); }
+  100% { background-image: linear-gradient(90deg, #8e2de2, #4a00e0); }
+}
+
+/* Scrollable Table */
+.table-container {
+  max-height: 370px;
+  overflow-y: auto;
+  border-radius: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #ff6600 #1a1a2e;
+}
+
+/* Custom Scrollbar */
+.table-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #1a1a2e;
+  border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #ff6600;
+  border-radius: 10px;
+}
+
+/* Glassmorphism Table */
+.table {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  overflow: hidden;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Table Header */
+.table thead {
+  background: linear-gradient(90deg, #ff6600, #ff3366);
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* Table Row Animations */
+.table tbody tr {
+  transition: all 0.3s ease-in-out;
+}
+
+.table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.02);
+  box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+}
+
+/* Table Borders */
+.table th,
+.table td {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 15px;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+.order-card .card-img-top {
+  width: 100%; /* Ensures the image fits within the card width */
+  height: 200px; /* Set a fixed height */
+  object-fit: cover; /* Ensures the image is cropped properly to fit the dimensions */
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+
+
+/* Animated Sales Trend */
+.sales-img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    position: relative;
+}
+
+.sales-img-container img {
+    width: 80%;
+    opacity: 0;
+    animation: fadeIn 2s ease-in-out forwards;
+}
+
+
+.sales-analysis{
+  padding:200px;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fraud Alert Animation */
+.fraud-alert {
+    animation: blink 1.5s infinite alternate;
+}
+
+@keyframes blink {
+    from {
+        background-color: #dc3545;
+    }
+    to {
+        background-color: #ff0000;
+    }
+}
+
+.text-danger {
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-shadow: 2px 2px 5px rgba(255, 0, 0, 0.5);
+}
+
+/* Button Animation */
+.animated-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.animated-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sales-img-container img {
+        width: 100%;
+    }
+}
+
+</style>
+
+    <script>
+        function openNav() {
+          document.getElementById("mySidenav").style.width = "250px";
+          document.getElementById("main").style.marginLeft = "250px";
+          document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+        }
+        /* Set the width of the side navigation to 0 and the left margin of the page content to 0, and the background color of body to white */
+        function closeNav() {
+          document.getElementById("mySidenav").style.width = "0";
+          document.getElementById("main").style.marginLeft = "0";
+          document.body.style.backgroundColor = "white";
+        }
+      </script>
+
+      <script>
+        $(document).ready(function () {
+          // Hover effect for fraud alerts
+          $(".fraud-alert").hover(
+              function () {
+                  $(this).css({
+                      "transform": "scale(1.05)",
+                      "box-shadow": "0 10px 20px rgba(255, 0, 0, 0.5)"
+                  });
+              },
+              function () {
+                  $(this).css({
+                      "transform": "scale(1)",
+                      "box-shadow": "none"
+                  });
+              }
+          );
+      
+          // Fade-in effect for sales chart
+          $(".sales-img-container img").hide().fadeIn(2000);
+      
+          // AI-powered color cycling for sales section
+          setInterval(() => {
+              $(".text-center h2").css("color", getRandomColor());
+          }, 2000);
+      });
+      
+      // Function to generate random colors
+      function getRandomColor() {
+          let letters = "0123456789ABCDEF";
+          let color = "#";
+          for (let i = 0; i < 6; i++) {
+              color += letters[Math.floor(Math.random() * 16)];
+          }
+          return color;
+      }
+      
+      </script>
+  </head>
+  <body>
+
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+        >&times;</a
+      >
+      <a href="{% url 'index' %}">Home</a>
+      <a href="{% url 'shop_products' %}">Shop</a>
+      <div id="mySidenav">
+        <button class="dropdown-btn">
+          Categories
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+          {% for category in categories %}
+          <a href="{% url 'category_products' slug=category.slug %}">{{ category.name }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      <a href="#">Clients</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <div id="mySidenav">
+        <button class="dropdown-btn">
+          Accounts
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+          {% if request.user.is_authenticated %}
+          <a href="myprofile"><strong>{{ request.user.username }}</a>
+          <a href="{% url 'my_cart' %}">Cart</a>
+          <a href="{% url 'wishlist' %}">Wishlist</a>
+          <a href="{% url 'my_orders' %}">Orders</a>
+          <a href="{% url 'logout' %}">Logout</a>
+          <!-- If user is not logged in, show Login -->
+          {% else %}
+          <a href="{% url 'login' %}">Login</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Use any element to open the sidenav -->
+
+    <div class="navbar">
+      <div class="topnav">
+        <div id="menu-icon">
+          <span onclick="openNav()">&#9776;</span>
+        </div>
+        <!-- Centered link -->
+        <div class="topnav-centered">
+          <a href="{% url 'index' %}" class="active">Home</a>
+        </div>
+
+        <!-- Left-aligned links (default) -->
+        <a href="#contact">Contact</a>
+
+    <!-- Right-aligned links -->
+    <div class="topnav-right">
+      <a href="#about">About</a>
+        <!-- If user is not logged in, show Login -->
+        {% if request.user.is_authenticated %}
+        <p style="color:crimson;">Logged in as: <strong style="color:chartreuse;">{{ request.user.username }}</strong></p>
+    </div>
+  </div>
+  <div id="locationDisplay" class="location"></div>
+</div>
+
+
+
+
+
+
+<div class="order-summary-container">
+  <!-- Order Confirmation Section (Left) -->
+  <section class="order-confirmation">
+    <div class="order-container">
+      {% for order in orderss %}
+      <div class="order-card card">
+        <img src="{{ order.brand.image.url }}" class="card-img-top" alt="{{ order.brand.name }}" />
+        <div class="card-body text-center">
+          <h5 class="card-title">{{ order.brand.name }}</h5>
+          <p class="card-text">Name: {{ order.customer_name }}</p>
+          <p class="card-text">Email: {{ order.customer_email }}</p>
+          <p class="card-text">Address: {{ order.customer_address }}</p>
+          <p class="card-text">Phone Number: {{ order.phone }}</p>
+          <p class="card-text">Quantity: {{ order.quantity }}</p>
+          <p class="card-text">Total Price: ₹{{ order.total_price }}/-</p>
+          <p class="card-text"><strong>Status: {{ order.status }}</strong></p>
+          <p class="card-text"><small>Ordered on: {{ order.ordered_at }}</small></p>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-center">You have no orders yet.</p>
+      {% endfor %}
+      <button id="nextOrder">Next Order</button>
+    </div>
+  </section>
+
+  <!-- Vertical Divider -->
+  <div class="vertical-line"></div>
+
+  <!-- Monthly Purchase Section (Right) -->
+  <section class="monthly-purchase" id="Purchase">
+    <div class="container mt-5">
+      <h2 class="text-center">Monthly Purchase Summary</h2>
+      {% if orderss %}
+      <table class="table table-bordered table-striped text-center">
+        <thead class="table-dark">
+          <tr>
+            <th>Month</th>
+            <th>Total Purchase ($)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for sale in orderss %}
+          <tr>
+            <td>{{ sale.ordered_at }}</td>
+            <td>${{ sale.total_price }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p class="text-center">No Purchase data available.</p>
+      {% endif %}
+    </div>
+  </section>
+</div>
+
+
+
+<section class="sales-analysis">
+
+
+<div class="container mt-5">
+    <h2 class="text-center">Sales Analysis</h2>
+    {% if sales_plot %}
+        <div class="text-center">
+            <img src="{{ sales_plot }}" alt="Sales Trend" class="img-fluid">
+        </div>
+    {% else %}
+        <p class="text-center">No sales data available.</p>
+    {% endif %}
+</div>
+
+<div class="container mt-5">
+    <h2 class="text-center">Fraud Detection Alerts</h2>
+    {% if fraud_orders %}
+        <p class="text-danger text-center">⚠️ Warning: The following orders may be fraudulent.</p>
+        <div class="row">
+            {% for fraud in fraud_orders %}
+            <div class="col-md-6">
+                <div class="card text-white bg-danger mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Customer: {{ fraud.customer_name }}</h5>
+                        <p class="card-text">Total Price: ${{ fraud.total_price }}</p>
+                        <p class="card-text"><strong>Status: {{ fraud.status }}</strong></p>
+                        <p class="card-text"><small>Ordered on: {{ fraud.ordered_at }}</small></p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-success">✅ No fraudulent orders detected.</p>
+    {% endif %}
+</div>
+{% else %}
+<a href="{% url 'login' %}">My Profile</a>
+{% endif %}
+</section>
+
+
+    <div class="footer">
+      <p>&copy; 2025 Aryavarta Mart. All rights reserved.</p>
+    </div>
+
+
+        <!-- SCroll Menu bar Dropdown Function -->
+        <script>
+            /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+            var dropdown = document.getElementsByClassName("dropdown-btn");
+            var i;
+      
+            for (i = 0; i < dropdown.length; i++) {
+              dropdown[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                  dropdownContent.style.display = "none";
+                } else {
+                  dropdownContent.style.display = "block";
+                }
+              });
+            }
+          </script>
+
+          <script>
+            $(document).ready(function () {
+              $("#nextOrder").click(function () {
+                let firstCard = $(".order-card:first");
+      
+                firstCard.fadeOut(500, function () {
+                  $(this).appendTo(".order-container").css({ opacity: 0, transform: "scale(0.9)" });
+                  $(".order-card:first").css({ opacity: 1, transform: "scale(1)" }).fadeIn(500);
+                });
+              });
+            });
+                   
+          </script>
+
+
+          <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-pwEEGJSiWmRPOEaZK5Etdj4AqwwFmrZeT3gNN5t93xp9hwbp4RA2PoF2oWfHkOj9"
+            crossorigin="anonymous"
+          ></script>
+  </body>
+</html>

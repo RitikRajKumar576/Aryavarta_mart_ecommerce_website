@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  {% load static %}
+  <head>
+    <title>Login - Aryavarta Mart</title>
+    <!-- <link rel="icon" type="image/x-icon" href="/images/favicon.ico"> -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQeR2KW5u11EMUx0ah8oZ1yIdknoDJFvj5lGvCQ3aAhoh6sGdCMt5tbxg"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'css/sample.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- /* Set the width of the side navigation to 250px */ -->
+    <script>
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+        document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+      }
+      /* Set the width of the side navigation to 0 and the left margin of the page content to 0, and the background color of body to white */
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+        document.body.style.backgroundColor = "white";
+      }
+    </script>
+
+    <script>
+      window.onload = function () {
+        setTimeout(function () {
+          document.querySelector(".header").classList.add("hide");
+        }, 1000); // Wait 1 seconds
+      };
+    </script>
+
+    <style>
+
+        
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .login-box {
+            background-color: #fff;
+            padding: 40px;
+            width: 300px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+            transform: translateY(-1000px);
+            animation: slideIn 0.6s forwards;
+        }
+        
+        @keyframes slideIn {
+            0% {
+                transform: translateY(-1000px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+        
+        h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+        
+        .textbox {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .textbox input {
+            width: 100%;
+            padding: 10px;
+            padding-left: 40px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .textbox input:focus {
+            border-color: #4CAF50;
+        }
+        
+        .textbox label {
+            position: absolute;
+            left: 15px;
+            top: 10px;
+            font-size: 16px;
+            color: #999;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        
+        .textbox input:focus + label,
+        .textbox input:not(:placeholder-shown) + label {
+            top: -12px;
+            left: 15px;
+            font-size: 12px;
+            color: #4CAF50;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+    </style>
+
+    {% comment %}
+    <style>
+      /* CSS for the sliding alert */
+      .alert-slide {
+        position: fixed;
+        top: 1px;
+        left: -100%;
+        width: 100%;
+        background-color: #4caf50;
+        color: white;
+        text-align: center;
+        padding: 15px;
+        font-size: 18px;
+        transition: 0.5s;
+        z-index: 1000;
+      }
+      .alert-slide.show {
+        left: 0;
+      }
+    </style>
+
+    <script>
+      // Show the sliding alert on successful cart addition
+      function showAlert(message) {
+        const alertBox = document.createElement("div");
+        alertBox.classList.add("alert-slide");
+        alertBox.textContent = message;
+        document.body.appendChild(alertBox);
+
+        // Show the alert with sliding effect
+        setTimeout(() => alertBox.classList.add("show"), 100);
+
+        // Hide the alert after 3 seconds
+        setTimeout(() => {
+          alertBox.classList.remove("show");
+          setTimeout(() => alertBox.remove(), 500); // Remove the alert after it slides out
+        }, 3000);
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".add-to-cart").forEach((button) => {
+          button.addEventListener("click", function () {
+            let productId = this.getAttribute("data-product-id");
+            let quantity =
+              document.getElementById(`quantity-${productId}`).value || 1;
+
+            // Send AJAX request to add item to cart
+            fetch("{% url 'add_to_cart' %}", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}",
+              },
+              body: JSON.stringify({
+                product_id: productId,
+                quantity: parseInt(quantity),
+              }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.message) {
+                  showAlert(data.message); // Show the alert message on success
+                }
+              })
+              .catch((error) => console.error("Error:", error));
+          });
+        });
+      });
+    </script>
+    {% endcomment %}
+  </head>
+  <body>
+    <!-- <div class="header">
+  <h1>Aryavarta Mart</h1>
+  <p><b>Aryavarta Mart:</b> Your ultimate destination for cutting-edge electronics! Explore a wide range of mobiles, TVs, tablets, laptops, smartwatches, and more. Embrace innovation and tradition with our thoughtfully curated tech collection.</p>
+</div> -->
+
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+        >&times;</a
+      >
+      <a href="{% url 'index' %}">Home</a>
+      <a href="{% url 'shop_products' %}">Shop</a>
+      <div id="mySidenav">
+        <button class="dropdown-btn">
+          Categories
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+          {% for category in categories %}
+          <a href="{% url 'category_products' category.slug %}">{{ category.name }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      <a href="#">Clients</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <div id="mySidenav">
+        <button class="dropdown-btn">
+          Accounts
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+          <a href="#">My Account</a>
+          <a href="#">Cart</a>
+          <a href="#">Wishlist</a>
+          <a href="#">Orders</a>
+          <a href="#">Logout</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Use any element to open the sidenav -->
+
+    <div class="navbar">
+      <div class="topnav">
+        <div id="menu-icon">
+          <span onclick="openNav()">&#9776;</span>
+        </div>
+        <!-- Centered link -->
+        <div class="topnav-centered">
+          <a href="{% url 'index' %}" class="active">Aryavarta Mart</a>
+        </div>
+
+        <!-- Left-aligned links (default) -->
+        <a href="#contact">Contact</a>
+
+        <!-- Right-aligned links -->
+        <div class="topnav-right">
+          <a href="#about">About</a>
+        </div>
+      </div>
+      <div id="locationDisplay" class="location"></div>
+    </div>
+
+
+
+
+
+
+    <section>
+      {% comment %} Register form {% endcomment %}
+      {% comment %} {% extends 'index.html' %} {% endcomment %}
+      
+      {% block content %}
+      <div class="container">
+        <h2>Login</h2>
+        <form method="post">
+          {% csrf_token %}
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required><br>
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required><br>
+          <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+        <p class="text-center">Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+      </div>
+      {% endblock %}
+      
+      </section>
+
+
+
+
+
+    <!-- SCroll Menu bar Dropdown Function -->
+    <script>
+      /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+      var dropdown = document.getElementsByClassName("dropdown-btn");
+      var i;
+
+      for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function () {
+          this.classList.toggle("active");
+          var dropdownContent = this.nextElementSibling;
+          if (dropdownContent.style.display === "block") {
+            dropdownContent.style.display = "none";
+          } else {
+            dropdownContent.style.display = "block";
+          }
+        });
+      }
+    </script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pwEEGJSiWmRPOEaZK5Etdj4AqwwFmrZeT3gNN5t93xp9hwbp4RA2PoF2oWfHkOj9"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

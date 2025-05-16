@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <title>Shop - Aryavarta</title>
+    <!-- <link rel="icon" type="image/x-icon" href="/images/favicon.ico"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQeR2KW5u11EMUx0ah8oZ1yIdknoDJFvj5lGvCQ3aAhoh6sGdCMt5tbxg" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="{% static 'css/wishlist.css' %}"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- /* Set the width of the side navigation to 250px */ -->
+    <script>
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+        document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+      }
+      /* Set the width of the side navigation to 0 and the left margin of the page content to 0, and the background color of body to white */
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+        document.body.style.backgroundColor = "white";
+      }
+    </script>
+
+    <script>
+      window.onload = function () {
+        setTimeout(function () {
+          document.querySelector(".header").classList.add("hide");
+        }, 1000); // Wait 1 seconds
+      };
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Function to show alert message
+            function showAlert(message) {
+                let alertBox = document.getElementById("cart-alert");
+                if (!alertBox) return;
+    
+                alertBox.textContent = message; // Set message
+                alertBox.classList.add("show"); // Slide in
+    
+                // Hide after 3 seconds
+                setTimeout(() => {
+                    alertBox.classList.remove("show"); // Slide out
+                }, 3000);
+            }
+    
+            // Handle Add to Cart click
+            document.querySelectorAll(".add-to-cart").forEach((button) => {
+                button.addEventListener("click", function () {
+                    let productId = this.getAttribute("data-product-id");
+                    let url = this.getAttribute("data-url"); // Get add_to_cart URL
+                    let quantityInput = document.getElementById(`quantity-${productId}`);
+    
+                    if (!quantityInput) {
+                        console.error("Quantity input not found for product:", productId);
+                        return;
+                    }
+    
+                    let quantity = parseInt(quantityInput.value) || 1;
+    
+                    // Send AJAX request to add to cart
+                    fetch(url, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRFToken": "{{ csrf_token }}",
+                        },
+                        body: JSON.stringify({
+                            product_id: productId,
+                            quantity: quantity,
+                        }),
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            if (data.message) {
+                                showAlert(data.message); // Show success alert
+                            } else if (data.error) {
+                                showAlert("Error adding to cart."); // Show error
+                            }
+                        })
+                        .catch((error) => console.error("Fetch error:", error));
+                });
+            });
+    
+        });
+    </script>
+    
+
+<style>
+/* Search and Filter Section */
+.filter-container {
+  display:contents;
+  position:relative;
+  justify-content: center !important; /* Center horizontally */
+  align-items: center !important; /* Center vertically */
+  margin-bottom: 10px;
+  right:1% !important;
+  width: 100%;
+}
+
+.search-bar {
+  width: 60%;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: #fff;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.filter-options {
+  display: flex;
+  justify-content: flex-end;
+  width: 30%;
+  margin-left: -280px;
+}
+
+.filter-options select {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.filter-options select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.alert-slide {
+    position: fixed;
+    top: 10px;
+    left: -100%;
+    width: 100%;
+    background-color: #4caf50;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 18px;
+    transition: left 0.5s ease-in-out;
+    z-index: 1000;
+}
+.alert-slide.show {
+    left: 0;
+}
+
+</style>
+
+<style>
+/* Wishlist Section Styles */
+/* Wishlist Card Container */
+.wishlist-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Ensures exactly 3 cards per row */
+    gap: 30px; /* Adds spacing between cards */
+    padding: 20px;
+    justify-items: center; /* Centers the items horizontally */
+}
+
+/* Wishlist Card */
+.card {
+    width: 300px; /* Adjust width to fit 3 cards properly */
+    perspective: 1000px;
+    position: relative;
+    border-radius: 15px;
+    transition: transform 0.5s ease-in-out;
+}
+
+
+/* Flip Card Effect */
+.card:hover {
+    transform: rotateY(10deg) scale(1.05);
+}
+
+/* Inner Card Content */
+.card-body {
+    background: linear-gradient(135deg, #1e1e1e, #3a3a3a);
+    padding: 15px;
+    border-radius: 0 0 15px 15px;
+    text-align: center;
+    transition: background 0.3s ease-in-out;
+}
+
+/* Image Styling */
+.card img {
+    width: 100%;
+    height: 310px;
+    padding:1px;
+    object-fit: cover;
+    border-radius: 15px 20px 0 0;
+    transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+}
+
+/* Hover Animation on Image */
+.card:hover img {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+}
+
+/* Product Title */
+.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    margin-top: 10px;
+}
+
+/* Price */
+.price {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #ffcc00;
+    margin: 5px 0;
+}
+
+
+.quantity-input {
+    width: 60px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+
+/* Button Container */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* Buttons */
+.add-to-cart, .remove-btn {
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Add to Cart Button */
+.add-to-cart {
+    color: white;
+    box-shadow: 0 5px 15px rgba(255, 65, 108, 0.3);
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    cursor: pointer; /* Position the button at the bottom *//* Center horizontally */
+}
+
+.add-to-cart:hover {
+    background-color: #555;
+}
+
+/* Remove Button */
+.remove-btn {
+    display: inline-block;
+    background: #dc3545;
+    color: white;
+    padding: 12px 15px;
+    font-size: 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .remove-btn:hover {
+    background: #555;
+    transform: scale(1.05);
+  }
+
+/* Glow Effect on Hover */
+.card:hover {
+    box-shadow: 0px 0px 15px rgba(255, 65, 108, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .wishlist-container {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+    
+    .card {
+        width: 100%;
+        height: auto;
+    }
+    
+    .card img {
+        height: 180px;
+    }
+    
+    .button-container {
+        flex-direction: column;
+    }
+}
+
+
+</style>
+  </head>
+  <body>
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+        >&times;</a
+      >
+      <a href="{% url 'index' %}">Home</a>
+      <a href="{% url 'shop_products' %}">Shop</a>
+      <div id="mySidenav">
+        <button class="dropdown-btn">
+          Categories
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            {% for category in categories %}
+            <a href="{% url 'category_products' category.slug %}">{{ category.name }}</a>
+            {% endfor %}
+        </div>
+      </div>
+      <a href="#">Clients</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <div id="mySidenav">
+        <button class="dropdown-btn">
+          Accounts
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+          {% if request.user.is_authenticated %}
+          <a href="myprofile"><strong>{{ request.user.username }}</a>
+          <a href="{% url 'my_cart' %}">Cart</a>
+          <a href="{% url 'wishlist' %}">Wishlist</a>
+          <a href="{% url 'my_orders' %}">Orders</a>
+          <a href="{% url 'logout' %}">Logout</a>
+          <!-- If user is not logged in, show Login -->
+          {% else %}
+          <a href="{% url 'login' %}">Login</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Use any element to open the sidenav -->
+
+    <div class="navbar">
+      <div class="topnav">
+        <div id="menu-icon">
+          <span onclick="openNav()">&#9776;</span>
+        </div>
+        <!-- Centered link -->
+        <div class="topnav-centered">
+          <a href="{% url 'index' %}" class="active">Home</a>
+        </div>
+
+        <!-- Left-aligned links (default) -->
+        <a href="#contact">Contact</a>
+
+    <!-- Right-aligned links -->
+    <div class="topnav-right">
+      <a href="#about">About</a>
+        <!-- If user is not logged in, show Login -->
+        {% if request.user.is_authenticated %}
+        <p style="color:crimson;">Logged in as: <strong style="color:chartreuse;">{{ request.user.username }}</strong></p>
+        {% else %}
+        <a href="{% url 'login' %}">My Profile</a>
+        {% endif %}
+    </div>
+  </div>
+  <div id="locationDisplay" class="location"></div>
+</div>
+
+
+<div id="cart-alert" class="alert-slide"></div>
+
+                                            {% comment %} MObile Cards Sections {% endcomment %}
+                                            <section class="Mobile-cards">
+                                                <h2 style="text-align: center; top: 10%">Your Wishlist</h2>
+                                              
+                                                <div class="wishlist-container">
+                                                    {% for product in wishlist_products %}
+                                                    <div class="card">
+                                                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">{{ product.name }}</h5>
+                                                            <p style="color:white;"> Select items:-
+                                                                <input type="number" id="quantity-{{ product.id }}" value="1" min="1" class="quantity-input">
+                                                            </p>
+                                                            <p class="price">₹{{ product.price|floatformat:2 }}/-</p>
+                                                            {% if request.user.is_authenticated %}
+
+                                                            <div class="button-container">
+                                                                <button class="add-to-cart" data-product-id="{{ product.id }}" data-url="{% url 'add_to_cart' %}">
+                                                                    <i class="fa-solid fa-cart-shopping"></i> Add to Cart
+                                                                </button>
+                                                                <a href="{% url 'remove_from_wishlist' product.id %}" class="remove-btn">
+                                                                    <i class="fa-solid fa-trash"></i> Remove
+                                                                </a>
+                                                            </div>
+                                                                        
+                                                            {% else %}
+                                                            <a href="{% url 'login' %}">Login to Add to Cart</a>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                    {% empty %}
+                                                    <p style="text-align: center; color: red;">Your wishlist is empty.</p>
+                                                    {% endfor %}
+                                                </div>
+                                              </section>
+                                              
+
+<section>
+    <div class="footer">
+        <p>&copy; 2025 Aryavarta Mart. All rights reserved.</p>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+    </div>
+</section>
+
+    {% comment %} ~~~~~ JQUERY Section ~~~~~ {% endcomment %}
+
+    <!-- SCroll Menu bar Dropdown Function -->
+    <script>
+      /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+      var dropdown = document.getElementsByClassName("dropdown-btn");
+      var i;
+
+      for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function () {
+          this.classList.toggle("active");
+          var dropdownContent = this.nextElementSibling;
+          if (dropdownContent.style.display === "block") {
+            dropdownContent.style.display = "none";
+          } else {
+            dropdownContent.style.display = "block";
+          }
+        });
+      }
+    </script>
+
+<script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const wishlistButtons = document.querySelectorAll(".wishlist-btn");
+    
+        wishlistButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                const productId = this.getAttribute("data-item-id");
+    
+                fetch(`/add-to-wishlist/${productId}/`, {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": getCSRFToken(),  // Use helper function for CSRF
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({}),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "added") {
+                        alert("Item added to wishlist!");
+                    } else if (data.status === "exists") {
+                        alert("Item is already in your wishlist.");
+                    } else {
+                        alert("Error adding item to wishlist.");
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+            });
+        });
+    
+        // Function to get CSRF token from Django template
+        function getCSRFToken() {
+            return document.querySelector('[name=csrfmiddlewaretoken]').value;
+        }
+    });
+</script>
+
+
+
+
+    
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pwEEGJSiWmRPOEaZK5Etdj4AqwwFmrZeT3gNN5t93xp9hwbp4RA2PoF2oWfHkOj9"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

@@ -1,0 +1,458 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  /* Style the body */
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    background-color: white;
+    color: black;
+  }
+
+  body .button{
+    background-color: #000;
+  }
+
+  body .button:hover{
+    opacity: 0.7;
+  }
+
+  .dark-mode {
+    background-color: black;
+    color: white;
+  }
+  
+  /* Header/logo Title */
+  .header {
+    padding: 80px;
+    text-align: center;
+    background: #ff6ea1;
+    color: rgb(255, 255, 255);
+    transition: all 0.5s ease; /* Smooth transition */
+  }
+  
+  /* Hidden Header Style */
+  .header.hide {
+    display: none; /* Hides the header completely */
+  }
+  
+  /* Increase the font size of the heading */
+  .header h1 {
+    font-size: 40px;
+  }
+  
+  /* Style the top navigation bar */
+  .navbar {
+      position: sticky;
+      top: 0;
+      overflow: hidden;
+      background-color: #333;
+  }
+  
+  /* Style the navigation bar links */
+  .navbar a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+  }
+  
+  /* Right-aligned link */
+  .navbar a.right {
+    float: right;
+  }
+  
+  /* Change color on hover */
+  .navbar a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  .location {
+    font-size: 1rem;
+    margin-left: 1rem;
+    color: white;
+}
+
+  /* Column container */
+
+  
+  
+  .topnav {
+      overflow: hidden;
+      background-color: #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
+      font-family: Arial, sans-serif;
+    }
+  
+  .topnav #menu-icon{
+      display:flow-root;
+      text-align: center;
+      flex-grow:inherit;
+      position: relative;
+      right: 7px;
+      width: 30px;
+      height: 40px;
+      cursor: pointer;
+      z-index: 2;
+      color:#ddd
+  }
+  
+
+
+
+  .topnav #menu-icon span{
+      position: absolute;
+      top: 9px;
+      left: 9px;
+      width: 50%;
+      height: 2px;
+  }
+  .topnav #menu-icon span:hover{
+      color: #96ca13;
+  }
+    /* Links in the navbar */
+    .topnav a {
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+  
+    /* Centered link container */
+    .topnav-centered {
+      flex-grow: 2;
+      display:flow-root;
+      text-align: center;
+    }
+  
+    
+  
+    /* Active link styling */
+    .topnav a.active {
+      background-color: #aa041a;
+      color: white;
+      border-radius: 3px;
+    }
+  
+    /* Hover effect for links */
+    .topnav a:hover {
+      background-color: #96ca13;
+      color: black;
+      border-radius: 5px;
+    }
+  
+    /* Right-aligned link container */
+    .topnav-right {
+      display: flex;
+      gap: 10px;
+    }
+  
+  /* The side navigation menu */
+  .sidenav {
+      height: 100%; /* 100% Full-height */
+      width: 0; /* 0 width - change this with JavaScript */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Stay on top */
+      top: 0; /* Stay at the top */
+      left: 0;
+      background-color: #111; /* Black*/
+      overflow-x: hidden; /* Disable horizontal scroll */
+      padding-top: 60px; /* Place content 60px from the top */
+      transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    }
+    
+    /* The navigation menu links */
+    .sidenav a {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 20px;
+      color: #818181;
+      display: block;
+      transition: 0.3s;
+    }
+    
+    /* When you mouse over the navigation links, change their color */
+    .sidenav a:hover {
+      color: #f1f1f1;
+    }
+    
+
+
+    /* Position and style the close button (top right corner) */
+    .sidenav .closebtn {
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+      color:#ddd;
+    }
+
+
+
+
+
+    .sidenav #mySidenav a, .dropdown-btn{
+        padding: 6px 8px 6px 33px;
+        text-decoration: none;
+        font-size: 20px;
+        color: #818181;
+        display: block;
+        border: none;
+        background: none;
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+        outline: none;
+    }
+    
+    .sidenav a:hover, .dropdown-btn:hover {
+        color: #aa041a;
+      }
+    
+    .sidenav #mySidenav a:hover, .dropdown-btn:hover {
+        color: #aa041a;
+    }
+      .active {
+        background-color: #96ca13;
+        color: #aa041a;
+      }
+    
+    .sidenav #mySidenav .dropdown-container {
+        display: none;
+        background-color: #262626;
+        padding-left: 8px;
+      }
+
+      .fa-caret-down {
+        float: right;
+        padding-right: 8px;
+      }
+      
+    /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+    #main {
+      transition: margin-left .5s;
+      padding: 20px;
+    }
+    
+    /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+    @media screen and (max-height: 450px) {
+      .sidenav {padding-top: 15px;}
+      .sidenav a {font-size: 18px;}
+    }
+  
+  /* Main column */
+  .main {   
+    -ms-flex: 70%; /* IE10 */
+    flex: 70%;
+    background-color: white;
+    padding: 20px;
+  }
+  
+  /* Fake image */
+
+
+
+
+  
+
+
+
+
+
+
+
+#mobile-container {
+    max-width: 120%;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px; /* Adjust based on navbar height to create space */
+  }
+  
+  #mobile-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 60px;
+    justify-content: center;
+  }
+  
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 450px;
+    flex: 0 0 auto; /* Prevent shrinking, ensure fixed size */
+    text-align: center;
+    font-family: arial;
+    border-radius: 10px;
+    padding: 20px;
+  }
+  
+  .card:hover {
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    transform: translateY(-5px);
+  }
+  
+  #mob {
+    background-color: white;
+    padding: 120px;
+    border: 1px solid #ddd;
+    padding-top: 12px;
+    border-radius: 5px;
+    text-align: center;
+    width: 500px;
+    position: relative; /* Allows button to be positioned relative to the card */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensures button stays at the bottom */
+    max-height: 530px;
+    overflow: hidden;
+  }
+  
+  #mob img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .price {
+    color: green;
+    font-size: 1.5em;
+    margin-top: auto;
+  }
+  
+  /* Button Positioning */
+
+  
+  #mob button:hover {
+    background-color: #555;
+  }
+  
+  /* Cart Actions - Align Quantity and Add to Cart Button */
+  .cart-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Space between quantity input and button */
+    margin-top: 18px;
+  }
+  
+  /* Quantity Input */
+  .quantity-input {
+    width: 60px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+
+
+
+  .alert-slide {
+    position: fixed;
+    top: 1px;
+    left: -100%;
+    width: 100%;
+    background-color: #4caf50;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 18px;
+    transition: 0.5s;
+    z-index: 1000;
+  }
+  .alert-slide.show {
+    left: 0;
+  }
+
+
+
+/* Custom Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+}
+
+.container {
+  margin-top: 50px;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}
+
+.form-group label {
+  font-weight: bold;
+}
+
+.form-control {
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-center p {
+  font-size: 14px;
+}
+
+.text-center a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.text-center a:hover {
+  text-decoration: underline;
+}
+
+
+
+
+
+
+/* Footer */
+.footer {
+    padding: 20px;
+    text-align: center;
+    background: #ddd;
+  }
+  
+  /* Responsive layout */
+  @media screen and (max-width: 700px) {
+    .row {
+      flex-direction: column;
+    }
+  }
+  
+  @media screen and (max-width: 400px) {
+    .navbar a {
+      float: none;
+      width: 100%;
+    }
+  }

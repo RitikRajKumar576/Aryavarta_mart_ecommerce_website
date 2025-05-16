@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  {% load static %}
+  <head>
+    <title>Aryavarta Mart</title>
+    <!-- <link rel="icon" type="image/x-icon" href="/images/favicon.ico"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    {% comment %} <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> {% endcomment %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQeR2KW5u11EMUx0ah8oZ1yIdknoDJFvj5lGvCQ3aAhoh6sGdCMt5tbxg" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/sample.css' %}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- /* Set the width of the side navigation to 250px */ -->
+    <script>
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+        document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+      }
+      /* Set the width of the side navigation to 0 and the left margin of the page content to 0, and the background color of body to white */
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+        document.body.style.backgroundColor = "white";
+      }
+    </script>
+
+    <script>
+      window.onload = function () {
+        setTimeout(function () {
+          document.querySelector(".header").classList.add("hide");
+        }, 1000); // Wait 1 seconds
+      };
+    </script>
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
+* {
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+footer {
+    position: relative;
+    width: 100%;
+    background: #111;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    overflow: hidden;
+}
+
+.waves {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    background: url('https://i.imgur.com/5UdQxnh.png');
+    background-size: cover;
+    animation: waveAnimation 5s linear infinite;
+}
+
+@keyframes waveAnimation {
+    0% { background-position-x: 0; }
+    100% { background-position-x: 1000px; }
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin-top: 20px;
+}
+
+.social-icons li {
+    margin: 0 10px;
+}
+
+.social-icons a {
+    color: white;
+    font-size: 24px;
+    transition: 0.3s;
+}
+
+.social-icons a:hover {
+    color: #00aaff;
+    transform: translateY(-5px);
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 20px 0;
+}
+
+.menu li {
+    margin: 0 15px;
+}
+
+.menu a {
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+}
+
+.menu a:hover {
+    color: #00ff88;
+    text-shadow: 0 0 5px #00ff88;
+}
+
+footer p {
+    font-size: 14px;
+    margin-top: 10px;
+    opacity: 0.8;
+}
+    </style>
+
+
+
+<style>
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* General Reset */
+* {
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+
+/* Container */
+.container {
+    max-width: 10000px;
+    margin: 3px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px);
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Title */
+h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: auto;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    animation: slideDown 1s ease-in-out;
+}
+
+/* Image & Form */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.column {
+    flex: 1;
+    padding: 20px;
+}
+
+.column img {
+    width: 86%;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.5s ease-in-out;
+}
+
+.column img:hover {
+    transform: scale(1.05);
+}
+
+/* Form */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    transition: 0.3s;
+    background: rgba(255, 255, 255, 0.2);
+    color: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+input:focus, select:focus, textarea:focus {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.02);
+}
+
+/* Submit Button */
+input[type="submit"] {
+    background: linear-gradient(to right, #ff512f, #dd2476);
+    border: none;
+    color: auto;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.4s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+input[type="submit"]:hover {
+    transform: scale(1.05);
+    background: linear-gradient(to right, #dd2476, #ff512f);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+</style>
+
+
+    <script>
+      // Show the sliding alert on successful cart addition
+      function showAlert(message) {
+        const alertBox = document.createElement("div");
+        alertBox.classList.add("alert-slide");
+        alertBox.textContent = message;
+        document.body.appendChild(alertBox);
+
+        // Show the alert with sliding effect
+        setTimeout(() => alertBox.classList.add("show"), 100);
+
+        // Hide the alert after 3 seconds
+        setTimeout(() => {
+          alertBox.classList.remove("show");
+          setTimeout(() => alertBox.remove(), 500); // Remove the alert after it slides out
+        }, 3000);
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".add-to-cart").forEach((button) => {
+          button.addEventListener("click", function () {
+            let productId = this.getAttribute("data-product-id");
+            let quantity = 1; // Default to 1 if quantity is not specified
+            // Send AJAX request to add item to cart
+            fetch("{% url 'add_to_cart' %}", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}",
+              },
+              body: JSON.stringify({
+                product_id: productId,
+                quantity: parseInt(quantity),
+              }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.message) {
+                  showAlert(data.message); // Show the alert message on success
+                }
+              })
+              .catch((error) => console.error("Error:", error));
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+
+
+    <!-- Sidenav -->
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+        >&times;</a
+      >
+      <a href="{% url 'index' %}">Home</a>
+      <a href="{% url 'shop_products' %}">Shop</a>
+      <div id="mySidenav">
+        <button class="dropdown-btn">
+          Categories
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+          {% for category in categories %}
+          <a href="{% url 'category_products' slug=category.slug %}"
+            >{{ category.name }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      <a href="#">Clients</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <div id="mySidenav">
+        <button class="dropdown-btn">
+          Accounts
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+          {% if request.user.is_authenticated %}
+          <a href="myprofile"><strong>{{ request.user.username }}</a>
+          <a href="{% url 'my_cart' %}">Cart</a>
+          <a href="{% url 'wishlist' %}">Wishlist</a>
+          <a href="{% url 'my_orders' %}">Orders</a>
+          <a href="{% url 'logout' %}">Logout</a>
+          <!-- If user is not logged in, show Login -->
+          {% else %}
+          <a href="{% url 'login' %}">Login</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Use any element to open the sidenav -->
+    <!-- Navbar -->
+    <div class="navbar">
+      <div class="topnav">
+        <div id="menu-icon">
+          <span onclick="openNav()">&#9776;</span>
+        </div>
+        <!-- Centered link -->
+        <div class="topnav-centered">
+          <a href="{% url 'index' %}" class="active">Aryavarta Mart</a>
+        </div>
+
+        <!-- Left-aligned links (default) -->
+        <a href="{% url 'contact_us' %}">Contact</a>
+
+        <!-- Right-aligned links -->
+        <div class="topnav-right">
+          <a href="#about">About</a>
+          <!-- If user is not logged in, show Login -->
+          {% if request.user.is_authenticated %}
+          <p style="color: crimson">Logged in as: <strong style="color: chartreuse">{{ request.user.username }}</strong></p>
+          {% else %}
+          <a href="{% url 'login' %}">Login</a>
+          {% endif %}
+        </div>
+      </div>
+      <div id="locationDisplay" class="location"></div>
+    </div>
+
+
+
+    <section>
+      <div class="container">
+          <div style="text-align:center">
+              <h2>Contact Us</h2>
+              <p>Swing by for a cup of coffee, or leave us a message:</p>
+          </div>
+  
+          <div class="row">
+              <div class="column">
+                  <img src="{% static 'images/asus-vivobook-s15-oled-2022-laptop.jpg' %}" style="width:100%">
+              </div>
+  
+              <div class="column">
+                  <form method="POST">
+                      {% csrf_token %}
+  
+                      <label for="id_first_name">First Name</label>
+                      {{ form.first_name }}
+  
+                      <label for="id_last_name">Last Name</label>
+                      {{ form.last_name }}
+  
+                      <label for="id_country_name">Country</label>
+                      {{ form.country_name }}
+  
+                      <label for="id_state_name">State</label>
+                      <select id="id_state_name" name="state_name">
+                          <option value="">---------</option>
+                      </select>
+  
+                      <label for="id_message">Message</label>
+                      {{ form.message }}
+  
+                      <input type="submit" value="Submit">
+                  </form>
+              </div>
+          </div>
+      </div>
+  </section>
+  
+
+  
+
+  
+
+
+<section>
+    <footer>
+      <div class="waves">
+          <div class="wave" id="wave1"></div>
+          <div class="wave" id="wave2"></div>
+          <div class="wave" id="wave3"></div>
+          <div class="wave" id="wave4"></div>
+      </div>
+      <ul class="social-icons">
+          <li><a href="www.facebook.com"><i class="fab fa-facebook-f"></i></a></li>
+          <li><a href="www.twitter.com"><i class="fab fa-twitter"></i></a></li>
+          <li><a href="www.instagram.com"><i class="fab fa-instagram"></i></a></li>
+          <li><a href="www.linkedin.com"><i class="fab fa-linkedin-in"></i></a></li>
+      </ul>
+      <ul class="menu">
+          <li><a href="{% url 'index' %}">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">Contact</a></li>
+      </ul>
+      <p>© 2025 Aryavarta Mart | All Rights Reserved</p>
+  </footer>
+</section>
+    {% comment %} ~~~~~ JQUERY Section ~~~~~ {% endcomment %}
+
+    <!-- Header photo Function -->
+    <script>
+      let slideIndex = 1;
+      showSlides(slideIndex);
+
+      function plusSlides(n) {
+        showSlides((slideIndex += n));
+      }
+
+      function currentSlide(n) {
+        showSlides((slideIndex = n));
+      }
+
+      function showSlides(n) {
+        let slides = document.getElementsByClassName("mySlides");
+        let dots = document.getElementsByClassName("dot");
+
+        if (n > slides.length) {
+          slideIndex = 1;
+        }
+        if (n < 1) {
+          slideIndex = slides.length;
+        }
+
+        for (let slide of slides) {
+          slide.style.display = "none";
+        }
+
+        for (let dot of dots) {
+          dot.className = dot.className.replace(" active", "");
+        }
+
+        slides[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " active";
+      }
+    </script>
+
+    <script>
+      // Fetch current location data from the backend
+      $.ajax({
+        url: "/get-location/", // URL of the Django endpoint
+        type: "GET",
+        success: function (data) {
+          if (data.error) {
+            $("#location").text("Unable to fetch location.");
+          } else {
+            var lat = data.lat;
+            var lng = data.lng;
+            $("#location").html(
+              "Current Location: Latitude: " + lat + ", Longitude: " + lng
+            );
+          }
+        },
+        error: function (error) {
+          $("#location").text("Error fetching location.");
+        },
+      });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".add-to-cart").forEach((button) => {
+          button.addEventListener("click", function () {
+            let productId = this.getAttribute("data-product-id");
+            let quantity =
+              document.getElementById(`quantity-${productId}`).value || 1;
+
+            // Send AJAX request to add item to cart
+            fetch("{% url 'add_to_cart' %}", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}",
+              },
+              body: JSON.stringify({
+                product_id: productId,
+                quantity: parseInt(quantity),
+              }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                // Do something with the response if needed, no alert
+              })
+              .catch((error) => console.error("Error:", error));
+          });
+        });
+      });
+    </script>
+
+    <!-- best of brand offers Card Scroll function -->
+    <script>
+      const cardContainer = document.getElementById("card-container");
+
+      let scrollInterval;
+      let isHovered = false;
+
+      // Function to start scrolling
+      function startScrolling() {
+        scrollInterval = setInterval(() => {
+          // Reset the scroll position to the starting point
+          cardContainer.scrollTo({
+            left: 0,
+            behavior: "smooth", // Smooth scroll to the starting point
+          });
+          // Pause briefly before continuing the loop
+          setTimeout(() => {
+            // Scroll to the next card after resetting
+            const cardWidth = document.querySelector(".card").offsetWidth + 20; // Card width + gap
+            cardContainer.scrollBy({
+              left: cardWidth,
+              behavior: "smooth",
+            });
+          }, 1000); // 3-second pause after resetting
+        }, 2000); // Repeat every 3 seconds
+      }
+
+      // Mouse hover event functions
+      const cards = document.querySelectorAll(".card"); // All cards by class
+
+      function pauseScrolling() {
+        isHovered = true;
+        clearInterval(scrollInterval); // Stop scrolling when mouse enters a card
+      }
+
+      function resumeScrolling() {
+        isHovered = false;
+        startScrolling(); // Resume scrolling when mouse leaves the card
+      }
+
+      // Loop through each card and add event listeners
+      cards.forEach((card) => {
+        card.addEventListener("mouseenter", pauseScrolling); // Stop scrolling when mouse enters a card
+        card.addEventListener("mouseleave", resumeScrolling); // Resume scrolling when mouse leaves the card
+      });
+
+      // Start scrolling when the page loads (if not hovered)
+      startScrolling();
+    </script>
+
+    <!-- SCroll Menu bar Dropdown Function -->
+    <script>
+      /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+      var dropdown = document.getElementsByClassName("dropdown-btn");
+      var i;
+
+      for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function () {
+          this.classList.toggle("active");
+          var dropdownContent = this.nextElementSibling;
+          if (dropdownContent.style.display === "block") {
+            dropdownContent.style.display = "none";
+          } else {
+            dropdownContent.style.display = "block";
+          }
+        });
+      }
+    </script>
+
+
+
+
+  <!-- ✅ Corrected JavaScript for Dynamic State Loading -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+      $(document).ready(function () {
+          $("#id_country_name").change(function () {
+              var countryId = $(this).val();
+              if (countryId) {
+                  $.ajax({
+                      url: "{% url 'load_states' %}",  // ✅ Use the correct view
+                      data: { 'country_id': countryId },
+                      success: function (data) {
+                          $("#id_state_name").html(data);
+                      }
+                  });
+              } else {
+                  $("#id_state_name").html('<option value="">----</option>');
+              }
+          });
+      });
+  </script>
+
+
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pwEEGJSiWmRPOEaZK5Etdj4AqwwFmrZeT3gNN5t93xp9hwbp4RA2PoF2oWfHkOj9"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

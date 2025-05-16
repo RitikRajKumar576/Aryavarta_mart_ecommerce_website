@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <title>Aryavarta{{ category.name }}List</title>
+    <!-- <link rel="icon" type="image/x-icon" href="/images/favicon.ico"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"     integrity="sha384-rbsA2VBKQeR2KW5u11EMUx0ah8oZ1yIdknoDJFvj5lGvCQ3aAhoh6sGdCMt5tbxg" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="{% static 'css/category_product.css' %}" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- /* Set the width of the side navigation to 250px */ -->
+    <script>
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+        document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+      }
+      /* Set the width of the side navigation to 0 and the left margin of the page content to 0, and the background color of body to white */
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+        document.body.style.backgroundColor = "white";
+      }
+    </script>
+
+    <script>
+      window.onload = function () {
+        setTimeout(function () {
+          document.querySelector(".header").classList.add("hide");
+        }, 1000); // Wait 1 seconds
+      };
+    </script>
+
+
+
+    <script>
+      // Show the sliding alert on successful cart addition
+      function showAlert(message) {
+        const alertBox = document.createElement("div");
+        alertBox.classList.add("alert-slide");
+        alertBox.textContent = message;
+        document.body.appendChild(alertBox);
+
+        // Show the alert with sliding effect
+        setTimeout(() => alertBox.classList.add("show"), 100);
+
+        // Hide the alert after 3 seconds
+        setTimeout(() => {
+          alertBox.classList.remove("show");
+          setTimeout(() => alertBox.remove(), 500); // Remove the alert after it slides out
+        }, 3000);
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".add-to-cart").forEach((button) => {
+          button.addEventListener("click", function () {
+            let productId = this.getAttribute("data-mobile-id");
+            let quantity = document.getElementById(`quantity-${productId}`).value || 1;
+            // Send AJAX request to add item to cart
+            fetch("{% url 'add_to_cart' %}", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}",
+              },
+              body: JSON.stringify({
+                product_id: productId,
+                quantity: parseInt(quantity),
+              }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.message) {
+                  showAlert(data.message); // Show the alert message on success
+                }
+              })
+              .catch((error) => console.error("Error:", error));
+          });
+        });
+      });
+    </script>
+
+    <style>
+      .card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      
+      /* Button container to align buttons side by side */
+      .card .button-container {
+        display: flex;
+        width: 175%;
+        justify-content: space-between;
+        margin-top: 10px;
+      }
+      
+      /* Wishlist and Add to Cart Buttons */
+      .card .wishlist-btn,
+      .card .add-to-cart {
+        width: 48%;  /* Each button takes up half the width */
+        padding: 10px;
+        font-size: 1rem;
+        text-align: center;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      
+      /* Wishlist Button */
+      .card .wishlist-btn {
+        background-color: #ff9800;
+        color: white;
+      }
+      
+      /* Add to Cart Button */
+      .card .add-to-cart {
+        background-color: #e91e63;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <div class="header">
+  <h1>Aryavarta Mart</h1>
+  <p><b>Aryavarta Mart:</b> Your ultimate destination for cutting-edge electronics! Explore a wide range of mobiles, TVs, tablets, laptops, smartwatches, and more. Embrace innovation and tradition with our thoughtfully curated tech collection.</p>
+</div> -->
+
+
+
+
+
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+        >&times;</a
+      >
+      <a href="{% url 'index' %}">Home</a>
+      <a href="{% url 'shop_products' %}">Shop</a>
+      <div id="mySidenav">
+        <button class="dropdown-btn">
+          Categories
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+        {% for category in categories %}
+            <a href="{% url 'category_products' category.slug %}">{{ category.name }}</a>
+        {% endfor %}
+        </div>
+      </div>
+      <a href="#">Clients</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <div id="mySidenav">
+        <button class="dropdown-btn">
+          Accounts
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+          {% if request.user.is_authenticated %}
+          <a href="myprofile"><strong>{{ request.user.username }}</a>
+          <a href="{% url 'my_cart' %}">Cart</a>
+          <a href="{% url 'wishlist' %}">Wishlist</a>
+          <a href="{% url 'my_orders' %}">Orders</a>
+          <a href="{% url 'logout' %}">Logout</a>
+          <!-- If user is not logged in, show Login -->
+          {% else %}
+          <a href="{% url 'login' %}">Login</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Use any element to open the sidenav -->
+
+    <div class="navbar">
+      <div class="topnav">
+        <div id="menu-icon">
+          <span onclick="openNav()">&#9776;</span>
+        </div>
+        <!-- Centered link -->
+        <div class="topnav-centered">
+          <a href="{% url 'index' %}" class="active">Home</a>
+        </div>
+
+        <!-- Left-aligned links (default) -->
+        <a href="#contact">Contact</a>
+
+    <!-- Right-aligned links -->
+    <div class="topnav-right">
+      <a href="#about">About</a>
+        <!-- If user is not logged in, show Login -->
+        {% if request.user.is_authenticated %}
+        <p style="color:crimson;">Logged in as: <strong style="color:chartreuse;">{{ request.user.username }}</strong></p>
+        {% else %}
+        <a href="{% url 'login' %}">My Profile</a>
+        {% endif %}
+    </div>
+  </div>
+  <div id="locationDisplay" class="location"></div>
+</div>
+
+    <section class="Mobile-cards">
+      <h2 style="text-align: center; top: 10%">{{ category.name }}</h2>
+      <div class="carousel-container" id="mobile-container">
+        <div class="card-container" id="mobile-cards">
+          {% for product in products %}
+          <div class="card" id="mob">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+            <h1>{{ product.name }}</h1>
+            <p class="price">₹{{ product.price|floatformat:2 }}/-</p>
+
+            <!-- Quantity Input (Placed Between Price & Add to Cart) -->
+            <p>Select items:-
+              <input type="number" id="quantity-{{ product.id }}" class="quantity-input" min="1" value="1"/>
+            </p>
+
+            <!-- Wishlist Button (Above Add to Cart) -->
+            <div class="button-container">
+                <button class="wishlist-btn" data-item-id="{{ product.id }}"><i class="fa-solid fa-heart"></i> Add to Wishlist</button>  
+            <!-- Add to Cart Button (Below Wishlist Button) -->
+                <button class="add-to-cart" data-mobile-id="{{ product.id }}"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+            </div>
+          </div>
+          {% empty %}
+          <p style="text-align: center; color: red">
+            No mobile products available.
+          </p>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="footer">
+        <p>&copy; 2025 Your Store. All rights reserved.</p>
+      </div>
+    </section>
+
+    {% comment %} ~~~~~ JQUERY Section ~~~~~ {% endcomment %}
+
+    <!-- SCroll Menu bar Dropdown Function -->
+    <script>
+      /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+      var dropdown = document.getElementsByClassName("dropdown-btn");
+      var i;
+
+      for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function () {
+          this.classList.toggle("active");
+          var dropdownContent = this.nextElementSibling;
+          if (dropdownContent.style.display === "block") {
+            dropdownContent.style.display = "none";
+          } else {
+            dropdownContent.style.display = "block";
+          }
+        });
+      }
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+          const wishlistButtons = document.querySelectorAll(".wishlist-btn");
+      
+          wishlistButtons.forEach(button => {
+              button.addEventListener("click", function () {
+                  const productId = this.getAttribute("data-item-id");
+      
+                  fetch(`/add-to-wishlist/${productId}/`, {
+                      method: "POST",
+                      headers: {
+                          "X-CSRFToken": "{{ csrf_token }}",
+                          "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({}),
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                      if (data.status === "added") {
+                          alert("Item added to wishlist!");
+                      } else if (data.status === "exists") {
+                          alert("Item is already in your wishlist.");
+                      } else {
+                          alert("Please log in to add items to your wishlist.");
+                      }
+                  })
+                  .catch(error => console.error("Error:", error));
+              });
+          });
+      });
+      </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pwEEGJSiWmRPOEaZK5Etdj4AqwwFmrZeT3gNN5t93xp9hwbp4RA2PoF2oWfHkOj9"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

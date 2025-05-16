@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <title>Shop - Aryavarta</title>
+    <!-- <link rel="icon" type="image/x-icon" href="/images/favicon.ico"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQeR2KW5u11EMUx0ah8oZ1yIdknoDJFvj5lGvCQ3aAhoh6sGdCMt5tbxg" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="{% static 'css/shop.css' %}"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- /* Set the width of the side navigation to 250px */ -->
+    <script>
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+        document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+      }
+      /* Set the width of the side navigation to 0 and the left margin of the page content to 0, and the background color of body to white */
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+        document.body.style.backgroundColor = "white";
+      }
+    </script>
+
+    <script>
+      window.onload = function () {
+        setTimeout(function () {
+          document.querySelector(".header").classList.add("hide");
+        }, 1000); // Wait 1 seconds
+      };
+    </script>
+
+    <script>
+      // Show the sliding alert on successful cart addition
+      function showAlert(message) {
+        const alertBox = document.createElement("div");
+        alertBox.classList.add("alert-slide");
+        alertBox.textContent = message;
+        document.body.appendChild(alertBox);
+
+        // Show the alert with sliding effect
+        setTimeout(() => alertBox.classList.add("show"), 100);
+
+        // Hide the alert after 3 seconds
+        setTimeout(() => {
+          alertBox.classList.remove("show");
+          setTimeout(() => alertBox.remove(), 500); // Remove the alert after it slides out
+        }, 3000);
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".add-to-cart").forEach((button) => {
+          button.addEventListener("click", function () {
+            let productId = this.getAttribute("data-product-id");
+            let quantity = document.getElementById(`quantity-${productId}`).value || 1;
+            // Send AJAX request to add item to cart
+            fetch("{% url 'add_to_cart' %}", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}",
+              },
+              body: JSON.stringify({
+                product_id: productId,
+                quantity: parseInt(quantity),
+              }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.message) {
+                  showAlert(data.message); // Show the alert message on success
+                }
+              })
+              .catch((error) => console.error("Error:", error));
+          });
+        });
+      });
+    </script>
+
+<style>
+/* Search and Filter Section */
+.filter-container {
+  display:contents;
+  position:relative;
+  justify-content: center !important; /* Center horizontally */
+  align-items: center !important; /* Center vertically */
+  margin-bottom: 10px;
+  right:1% !important;
+  width: 100%;
+}
+
+.search-bar {
+  width: 60%;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: #fff;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.filter-options {
+  display: flex;
+  justify-content: flex-end;
+  width: 30%;
+  margin-left: -280px;
+}
+
+.filter-options select {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.filter-options select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+</style>
+
+<style>
+/* Style for the card */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Button container to align buttons side by side */
+.card .button-container {
+  display: flex;
+  width: 175%;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+/* Wishlist and Add to Cart Buttons */
+.card .wishlist-btn,
+.card .add-to-cart {
+  width: 48%;  /* Each button takes up half the width */
+  padding: 10px;
+  font-size: 1rem;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Wishlist Button */
+.card .wishlist-btn {
+  background-color: #ff9800;
+  color: white;
+}
+
+/* Add to Cart Button */
+.card .add-to-cart {
+  background-color: #e91e63;
+  color: white;
+}
+</style>
+  </head>
+  <body>
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+        >&times;</a
+      >
+      <a href="{% url 'index' %}">Home</a>
+      <a href="{% url 'shop_products' %}">Shop</a>
+      <div id="mySidenav">
+        <button class="dropdown-btn">
+          Categories
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            {% for category in categories %}
+            <a href="{% url 'category_products' category.slug %}">{{ category.name }}</a>
+            {% endfor %}
+        </div>
+      </div>
+      <a href="#">Clients</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <div id="mySidenav">
+        <button class="dropdown-btn">
+          Accounts
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+          {% if request.user.is_authenticated %}
+          <a href="myprofile"><strong>{{ request.user.username }}</a>
+          <a href="{% url 'my_cart' %}">Cart</a>
+          <a href="{% url 'wishlist' %}">Wishlist</a>
+          <a href="{% url 'my_orders' %}">Orders</a>
+          <a href="{% url 'logout' %}">Logout</a>
+          <!-- If user is not logged in, show Login -->
+          {% else %}
+          <a href="{% url 'login' %}">Login</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Use any element to open the sidenav -->
+
+    <div class="navbar">
+      <div class="topnav">
+        <div id="menu-icon">
+          <span onclick="openNav()">&#9776;</span>
+        </div>
+        <!-- Centered link -->
+        <div class="topnav-centered">
+          <a href="{% url 'index' %}" class="active">Home</a>
+        </div>
+
+        <!-- Left-aligned links (default) -->
+        <a href="#contact">Contact</a>
+
+    <!-- Right-aligned links -->
+    <div class="topnav-right">
+      <a href="#about">About</a>
+        <!-- If user is not logged in, show Login -->
+        {% if request.user.is_authenticated %}
+        <p style="color:crimson;">Logged in as: <strong style="color:chartreuse;">{{ request.user.username }}</strong></p>
+        {% else %}
+        <a href="{% url 'login' %}">My Profile</a>
+        {% endif %}
+    </div>
+  </div>
+  <div id="locationDisplay" class="location"></div>
+</div>
+
+                                            {% comment %} MObile Cards Sections {% endcomment %}
+<section class="Mobile-cards">
+      <h2 style="text-align: center; top: 10%">Shop All Products</h2>
+
+          <!-- Search Bar and Filter Section -->
+    <div class="filter-container" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+      <div class="search-bar">
+          <input type="text" id="search-input" class="search-input" placeholder="Search products..." onkeyup="searchProducts()">
+      </div>
+      <div class="filter-options">
+          <select id="filter" onchange="filterProducts()">
+              <option value="NULL">Sort by Filter</option>
+              <option value="low_price">Sort by Low Price</option>
+              <option value="high_price">Sort by High Price</option>
+              <option value="newly_added">Newly Added</option>
+          </select>
+      </div>
+  </div>
+
+      <div class="carousel-container" id="mobile-container">
+        <div class="card-container" id="mobile-cards">
+          {% for product in shop_products %}
+          <div class="card" id="mob">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+            <h1>{{ product.name }}</h1>
+            <p class="price">₹{{ product.price|floatformat:2 }}/-</p>
+
+            <!-- Quantity Input (Placed Between Price & Add to Cart) -->
+            <p>Select items:-
+              <input type="number" id="quantity-{{ product.id }}" class="quantity-input" min="1" value="1"/>
+            </p>
+
+            <!-- Add to Cart Button -->
+            {% if request.user.is_authenticated %}
+            <div class="button-container">
+              <button class="wishlist-btn" data-item-id="{{ product.id }}"><i class="fa-solid fa-heart"></i> Add to Wishlist</button>  
+              <button class="add-to-cart" data-product-id="{{ product.id }}"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+            </div>
+            
+            {% else %}
+            <a href="{% url 'login' %}">Login to Add to Cart</a>
+            {% endif %}
+          </div>
+          {% empty %}
+          <p style="text-align: center; color: red">
+            No mobile products available.
+          </p>
+          {% endfor %}
+        </div>
+      </div>
+</section>
+
+<section>
+    <div class="footer">
+        <p>&copy; 2025 Aryavarta Mart. All rights reserved.</p>
+        <div class="social-icons">
+            <a href="www.facebook.com"><i class="fab fa-facebook"></i></a>
+            <a href="www.twitter.com"><i class="fab fa-twitter"></i></a>
+            <a href="www.instagram.com"><i class="fab fa-instagram"></i></a>
+            <a href="www.linkedin.com"><i class="fab fa-linkedin"></i></a>
+        </div>
+    </div>
+</section>
+
+    {% comment %} ~~~~~ JQUERY Section ~~~~~ {% endcomment %}
+
+    <!-- SCroll Menu bar Dropdown Function -->
+    <script>
+      /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+      var dropdown = document.getElementsByClassName("dropdown-btn");
+      var i;
+
+      for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function () {
+          this.classList.toggle("active");
+          var dropdownContent = this.nextElementSibling;
+          if (dropdownContent.style.display === "block") {
+            dropdownContent.style.display = "none";
+          } else {
+            dropdownContent.style.display = "block";
+          }
+        });
+      }
+    </script>
+
+    <script>
+      // Function for searching products dynamically
+      function searchProducts() {
+          var input = document.getElementById('search-input').value.toLowerCase();
+          var cards = document.getElementById('mobile-cards').getElementsByClassName('card');
+          for (var i = 0; i < cards.length; i++) {
+              var productName = cards[i].getElementsByTagName('h1')[0].innerText.toLowerCase();
+              if (productName.includes(input)) {
+                  cards[i].style.display = "";
+              } else {
+                  cards[i].style.display = "none";
+              }
+          }
+      }
+      
+      // Function for filtering products based on the selected option
+      function filterProducts() {
+          var filter = document.getElementById('filter').value;
+          var url = "{% url 'shop_products' %}?filter=" + filter;
+          window.location.href = url;
+      }
+      </script>
+      
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const wishlistButtons = document.querySelectorAll(".wishlist-btn");
+        
+            wishlistButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const productId = this.getAttribute("data-item-id");
+        
+                    fetch(`/add-to-wishlist/${productId}/`, {
+                        method: "POST",
+                        headers: {
+                            "X-CSRFToken": "{{ csrf_token }}",
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({}),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === "added") {
+                            alert("Item added to wishlist!");
+                        } else if (data.status === "exists") {
+                            alert("Item is already in your wishlist.");
+                        } else {
+                            alert("Please log in to add items to your wishlist.");
+                        }
+                    })
+                    .catch(error => console.error("Error:", error));
+                });
+            });
+        });
+        </script>
+        
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pwEEGJSiWmRPOEaZK5Etdj4AqwwFmrZeT3gNN5t93xp9hwbp4RA2PoF2oWfHkOj9"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

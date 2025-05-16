@@ -1,0 +1,533 @@
+
+{% if request.user.is_authenticated %}
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <title>My Profile - Aryavarta Mart</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/ai_animations.js' %}"></script>
+    <!-- <link rel="icon" type="image/x-icon" href="/images/favicon.ico"> -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQeR2KW5u11EMUx0ah8oZ1yIdknoDJFvj5lGvCQ3aAhoh6sGdCMt5tbxg"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'css/sample.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 50vh;
+        flex-direction: column;
+    }
+    
+    .profile-card {
+        width: 350px; /* Medium size */
+        text-align: center;
+        padding: 20px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        transition: transform 0.3s ease-in-out;
+    }
+    
+    .profile-card:hover {
+        transform: scale(1.05);
+    }
+    .update-btn {
+        background: linear-gradient(45deg, #ff416c, #ff4b2b);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background 0.3s;
+    }
+    
+    .update-btn:hover {
+        background: linear-gradient(45deg, #ff4b2b, #ff416c);
+    }
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 0.5s;
+    }
+    .modal-content {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        width: 40%;
+        animation: slideDown 0.5s;
+    }
+    
+    .close-btn {
+        float: right;
+        font-size: 20px;
+        cursor: pointer;
+    }
+    
+    .close-btn:hover {
+        color: red;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    @keyframes slideDown {
+        from { transform: translateY(-50px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+    
+
+/* Table Styling */
+.customer-table {
+    width: 85%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Table Header Styling */
+.customer-table thead {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.customer-table th {
+    padding: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+/* Table Row Styling */
+.customer-table tbody tr {
+    transition: all 0.3s ease;
+    background-color: #fff;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+/* Hover Effect on Rows */
+.customer-table tbody tr:hover {
+    background-color: #f0f8ff;
+    transform: translateX(10px);
+}
+
+/* Table Cell Styling */
+.customer-table td {
+    padding: 12px 15px;
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Actions Button Styling */
+.edit-btn {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+/* Hover Effect on Edit Button */
+.edit-btn:hover {
+    background-color: #45a049;
+    transform: scale(1.1);
+}
+
+/* Animation for Buttons */
+.edit-btn:active {
+    transform: scale(0.95);
+}
+
+/* Add subtle shadow effect on hover */
+.customer-table tbody tr:hover .edit-btn {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Smooth transition for row hover */
+.customer-table tbody tr {
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Responsive Design for Small Screens */
+@media screen and (max-width: 768px) {
+    .customer-table th, .customer-table td {
+        font-size: 0.9rem;
+        padding: 10px 12px;
+    }
+}
+
+</style>
+
+
+    <script>
+        function openNav() {
+          document.getElementById("mySidenav").style.width = "250px";
+          document.getElementById("main").style.marginLeft = "250px";
+          document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+        }
+        /* Set the width of the side navigation to 0 and the left margin of the page content to 0, and the background color of body to white */
+        function closeNav() {
+          document.getElementById("mySidenav").style.width = "0";
+          document.getElementById("main").style.marginLeft = "0";
+          document.body.style.backgroundColor = "white";
+        }
+      </script>
+
+      <script>
+        $(document).ready(function () {
+          // Hover effect for fraud alerts
+          $(".fraud-alert").hover(
+              function () {
+                  $(this).css({
+                      "transform": "scale(1.05)",
+                      "box-shadow": "0 10px 20px rgba(255, 0, 0, 0.5)"
+                  });
+              },
+              function () {
+                  $(this).css({
+                      "transform": "scale(1)",
+                      "box-shadow": "none"
+                  });
+              }
+          );
+      
+          // Fade-in effect for sales chart
+          $(".sales-img-container img").hide().fadeIn(2000);
+      
+          // AI-powered color cycling for sales section
+          setInterval(() => {
+              $(".text-center h2").css("color", getRandomColor());
+          }, 2000);
+      });
+      
+      // Function to generate random colors
+      function getRandomColor() {
+          let letters = "0123456789ABCDEF";
+          let color = "#";
+          for (let i = 0; i < 6; i++) {
+              color += letters[Math.floor(Math.random() * 16)];
+          }
+          return color;
+      }
+      
+      </script>
+  </head>
+  <body>
+
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+        >&times;</a
+      >
+      <a href="{% url 'index' %}">Home</a>
+      <a href="{% url 'shop_products' %}">Shop</a>
+      <div id="mySidenav">
+        <button class="dropdown-btn">
+          Categories
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+          {% for category in categories %}
+          <a href="{% url 'category_products' slug=category.slug %}">{{ category.name }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      <a href="#">Clients</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <div id="mySidenav">
+        <button class="dropdown-btn">
+          Accounts
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+            {% if request.user.is_authenticated %}
+            <a href="myprofile"><strong>{{ request.user.username }}</a>
+            <a href="{% url 'my_cart' %}">Cart</a>
+            <a href="{% url 'wishlist' %}">Wishlist</a>
+            <a href="{% url 'my_orders' %}">Orders</a>
+            <a href="{% url 'logout' %}">Logout</a>
+            <!-- If user is not logged in, show Login -->
+            {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Use any element to open the sidenav -->
+
+    <div class="navbar">
+      <div class="topnav">
+        <div id="menu-icon">
+          <span onclick="openNav()">&#9776;</span>
+        </div>
+        <!-- Centered link -->
+        <div class="topnav-centered">
+          <a href="{% url 'index' %}" class="active">Home</a>
+        </div>
+
+        <!-- Left-aligned links (default) -->
+        <a href="#contact">Contact</a>
+
+    <!-- Right-aligned links -->
+    <div class="topnav-right">
+      <a href="#about">About</a>
+        <!-- If user is not logged in, show Login -->
+        {% if request.user.is_authenticated %}
+        <p style="color:crimson;">Logged in as: <strong style="color:chartreuse;">{{ request.user.username }}</strong></p>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+    </div>
+  </div>
+  <div id="locationDisplay" class="location"></div>
+</div>
+
+
+
+
+{% include 'message.html' %}
+
+
+<section>
+    <div class="container">
+        <h2 class="title">Customer Profile</h2>
+        
+        <div class="profile-card">
+            
+            <h3>Name: {{ user.first_name }} {{ user.last_name }}</h3>
+            <p>Username:@{{ user.username }}</p>
+            <p>Email: {{ user.email }}</p>
+            <button id="openModal" class="update-btn">Update Profile</button>
+        </div>
+        
+        <div id="profileModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h3>Update Profile</h3>
+                <form method="POST" action="{% url 'myprofile' %}" class="profile-form">
+                    {% csrf_token %}
+                    {% comment %} <img src="{{ profile.profile_image.url }}" alt="Profile Image" width="150">
+                    <input type="file" name="profile_image"><br><br> {% endcomment %}
+                    <label>First Name:</label>
+                    <input type="text" name="first_name" value="{{ user.first_name }}" required>
+                    <label>Last Name:</label>
+                    <input type="text" name="last_name" value="{{ user.last_name }}" required><br><br>
+                    <label>Username:</label>
+                    <input type="text" name="username" value="{{ user.username }}" required>
+                    <label>Email:</label>
+                    <input type="email" name="email" value="{{ user.email }}" required><br><br>
+                    <label>Password:</label>
+                    <input type="password" name="password"  placeholder="Enter new password"><br><br>
+                    <center><button type="submit" class="update-btn">Update</button></center>
+                </form>
+            </div>
+        </div>
+    </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <h2 class="title">Customer Details</h2>
+            <table class="customer-table">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Phone Number</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for customer in myprofile %}
+                    <tr>
+                        <td>{{ customer.customer_name }}</td>
+                        <td>{{ customer.customer_email }}</td>
+                        <td>{{ customer.customer_address }}</td>
+                        <td>{{ customer.phone }}</td>
+                        <td>
+                            <button class="dropbtn edit-btn" data-id="{{ customer.id }}" 
+                                    data-name="{{ customer.customer_name }}" 
+                                    data-email="{{ customer.customer_email }}" 
+                                    data-address="{{ customer.customer_address }}" 
+                                    data-phone="{{ customer.phone }}">
+                                Edit
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+
+    <!-- Edit Customer Modal -->
+    <div id="editCustomerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close">&times;</span>
+            <center><h3>Edit Customer Details</h3></center><hr><br><br>
+            <form id="editCustomerForm" method="POST" action="{% url 'myprofile' %}">
+                {% csrf_token %}
+                <center><input type="hidden" id="customer_id" name="customer_id">
+                <label>Customer Name:</label>
+                <input type="text" id="customer_name" name="customer_name" required><br><br>
+                <label>Email:</label>
+                <input type="email" id="customer_email" name="customer_email" required><br><br>
+                <label>Address:</label>
+                <input type="text" id="customer_address" name="customer_address" required><br><br>
+                <label>Phone:</label>
+                <input type="text" id="customer_phone" name="customer_phone" required><br><br></center>
+                <center><button type="submit" class="update-btn">Update</button></center>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="footer">
+      <p>&copy; 2025 Aryavarta Mart. All rights reserved.</p>
+    </div>
+
+
+        <!-- SCroll Menu bar Dropdown Function -->
+        <script>
+            /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+            var dropdown = document.getElementsByClassName("dropdown-btn");
+            var i;
+      
+            for (i = 0; i < dropdown.length; i++) {
+              dropdown[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                  dropdownContent.style.display = "none";
+                } else {
+                  dropdownContent.style.display = "block";
+                }
+              });
+            }
+          </script>
+
+
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                let modal = document.getElementById("profileModal");
+                let openModalBtn = document.getElementById("openModal");
+                let closeModalBtn = document.querySelector(".close-btn");
+        
+                // Fix: Modal will not appear on page load
+                modal.style.display = "none";
+        
+                // Open modal when clicking "Update Profile"
+                openModalBtn.addEventListener("click", function () {
+                    modal.style.display = "flex";
+                });
+        
+                // Close modal when clicking "X"
+                closeModalBtn.addEventListener("click", function () {
+                    modal.style.display = "none";
+                });
+        
+                // Close modal if clicking outside of the modal content
+                window.addEventListener("click", function (event) {
+                    if (event.target === modal) {
+                        modal.style.display = "none";
+                    }
+                });
+            });
+        </script>
+
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let modal = document.getElementById("editCustomerModal");
+        let close = document.querySelector("#close");
+        let editButtons = document.querySelectorAll(".edit-btn");
+
+        // Initially hide the modal
+        modal.style.display = "none";
+
+        // Open modal when 'Edit' button is clicked
+        editButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                document.getElementById("customer_id").value = this.dataset.id;
+                document.getElementById("customer_name").value = this.dataset.name;
+                document.getElementById("customer_email").value = this.dataset.email;
+                document.getElementById("customer_address").value = this.dataset.address;
+                document.getElementById("customer_phone").value = this.dataset.phone;
+                modal.style.display = "flex";  // Show the modal
+            });
+        });
+
+        // Check if the close button is being selected properly
+        if (close) {
+            // Close the modal when the close button is clicked
+            close.addEventListener("click", function () {
+                modal.style.display = "none"; // Hide the modal
+            });
+        } else {
+            console.log("Close button not found.");
+        }
+
+        // Close the modal if clicked outside of it
+        window.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                modal.style.display = "none"; // Hide the modal
+            }
+        });
+    });
+</script>
+
+
+
+          <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-pwEEGJSiWmRPOEaZK5Etdj4AqwwFmrZeT3gNN5t93xp9hwbp4RA2PoF2oWfHkOj9"
+            crossorigin="anonymous"
+          ></script>
+  </body>
+</html>
+
+
+
+{% else %}
+<a href="{% url 'login' %}">Login</a>
+{% endif %}

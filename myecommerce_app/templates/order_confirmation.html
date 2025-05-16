@@ -1,0 +1,555 @@
+{% load custom_filters %}
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+  <head>
+    <title>Order Confirmation - Aryavarta Mart</title>
+    <!-- <link rel="icon" type="image/x-icon" href="/images/favicon.ico"> -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQeR2KW5u11EMUx0ah8oZ1yIdknoDJFvj5lGvCQ3aAhoh6sGdCMt5tbxg"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- /* Set the width of the side navigation to 250px */ -->
+    <script>
+      function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+        document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+      }
+      /* Set the width of the side navigation to 0 and the left margin of the page content to 0, and the background color of body to white */
+      function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+        document.body.style.backgroundColor = "white";
+      }
+    </script>
+
+    <script>
+      window.onload = function () {
+        setTimeout(function () {
+          document.querySelector(".header").classList.add("hide");
+        }, 1000); // Wait 1 seconds
+      };
+    </script>
+    <style>
+
+      /* General Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+}
+
+/* Cart Section */
+.cart-section {
+  width: 90%;
+  max-width: 1200px;
+  margin: 15px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cart-section h2 {
+  text-align: center;
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Cart Table */
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cart-table th,
+.cart-table td {
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  border: 1px solid black; /* Grid line for every cell */
+}
+
+.cart-table th {
+  background: #007bff;
+  color: white;
+  font-size: 18px;
+}
+
+.cart-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Product Info */
+.cart-item img {
+  width: 60px;
+  height: 60px;
+  border-radius: 5px;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.cart-item h3 {
+  font-size: 16px;
+  color: #333;
+}
+
+/* Quantity Controls */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity-controls button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.quantity-controls button:hover {
+  background: #0056b3;
+}
+
+.quantity-controls input {
+  width: 40px;
+  text-align: center;
+  font-size: 16px;
+  border: none;
+  margin: 0 5px;
+  background: transparent;
+}
+
+/* Remove Button */
+
+
+
+.remove-btn {
+  display: inline-block;
+  background: #dc3545;
+  color: white;
+  padding: 8px 15px;
+  font-size: 12px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.remove-btn:hover {
+  background: #c82333;
+  transform: scale(1.05);
+}
+
+
+/* Cart Total Section 
+.cart-total {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+.cart-total p {
+  font-size: 18px;
+  margin: 8px 0;
+  font-weight: 500;
+  color: #333;
+}
+
+.cart-total span {
+  font-weight: 700;
+  color: #007bff;
+}
+
+.checkout-btn {
+  display: inline-block;
+  background: #007bff;
+  color: white;
+  padding: 12px 20px;
+  font-size: 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.checkout-btn:hover {
+  background: #0056b3;
+  transform: scale(1.05);
+}
+*/
+/* Responsive Design 
+@media (max-width: 600px) {
+  .cart-total {
+      width: 90%;
+  }
+
+  .checkout-btn {
+      width: 100%;
+      padding: 14px;
+  }
+}
+*/
+
+
+/* Cart Bill Table */
+.cart-total {
+
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 1300px;
+  margin: 20px auto;
+  border: 2px solid #000; /* Bold outer border */
+}
+
+.cart-total h3 {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.cart-total table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid black; /* Table border */
+}
+
+.cart-total th, .cart-total td {
+  
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid black; /* Grid line for every cell */
+  text-align: center;
+}
+
+
+
+.cart-total th {
+  background: #f8f9fa;
+  font-weight: bold;
+  text-align: center;
+}
+
+.total-row {
+  font-size: 18px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.checkout-btn {
+  display: block;
+  width: 100%;
+  background: #007bff;
+  color: white;
+  padding: 12px;
+  font-size: 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  margin-top: 15px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 2px solid black; /* Button border */
+}
+
+.checkout-btn:hover {
+  background: #388e3c;
+  transform: scale(1.02);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .cart-total {
+      width: 90%;
+  }
+}
+    </style>
+
+    <style>
+      /* General Reset */
+      * {
+          box-sizing: border-box;
+          font-family: "Arial", sans-serif;
+      }
+
+      /* Confirmation Section */
+      .confirmation-section {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+          color: white;
+          text-align: center;
+          opacity: 0;
+          transform: scale(0.8);
+          animation: fadeInScale 1s ease-out forwards;
+      }
+
+      /* Confirmation Box */
+      .confirmation-container {
+          background: rgba(255, 255, 255, 0.1);
+          padding: 40px;
+          border-radius: 12px;
+          backdrop-filter: blur(10px);
+          box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+          max-width: 400px;
+          width: 90%;
+          animation: slideUp 1.2s ease-in-out forwards;
+      }
+
+      /* Checkmark Circle */
+      .checkmark-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-bottom: 20px;
+      }
+
+      .checkmark {
+          width: 80px;
+          height: 80px;
+          background: #27ae60;
+          color: white;
+          font-size: 50px;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          box-shadow: 0px 0px 20px rgba(39, 174, 96, 0.8);
+          animation: popIn 0.6s ease-out forwards, pulseGlow 2s infinite alternate;
+      }
+
+      /* Text Animations */
+      h2, p {
+          opacity: 0;
+          transform: translateY(20px);
+          animation: fadeInUp 1s ease-out forwards;
+      }
+
+      h2 {
+          font-size: 22px;
+          margin-bottom: 10px;
+          animation-delay: 0.5s;
+      }
+
+      p {
+          font-size: 16px;
+          animation-delay: 0.8s;
+      }
+
+      /* Animations */
+      @keyframes fadeInScale {
+          from {
+              opacity: 0;
+              transform: scale(0.8);
+          }
+          to {
+              opacity: 1;
+              transform: scale(1);
+          }
+      }
+
+      @keyframes popIn {
+          0% {
+              transform: scale(0);
+              opacity: 0;
+          }
+          60% {
+              transform: scale(1.2);
+              opacity: 1;
+          }
+          100% {
+              transform: scale(1);
+          }
+      }
+
+      @keyframes fadeInUp {
+          from {
+              opacity: 0;
+              transform: translateY(20px);
+          }
+          to {
+              opacity: 1;
+              transform: translateY(0);
+          }
+      }
+
+      @keyframes slideUp {
+          from {
+              transform: translateY(30px);
+              opacity: 0;
+          }
+          to {
+              transform: translateY(0);
+              opacity: 1;
+          }
+      }
+
+      @keyframes pulseGlow {
+          from {
+              box-shadow: 0px 0px 20px rgba(39, 174, 96, 0.8);
+          }
+          to {
+              box-shadow: 0px 0px 30px rgba(39, 174, 96, 1);
+          }
+      }
+  </style>
+  </head>
+  <body>
+    <!-- <div class="header">
+  <h1>Aryavarta Mart</h1>
+  <p><b>Aryavarta Mart:</b> Your ultimate destination for cutting-edge electronics! Explore a wide range of mobiles, TVs, tablets, laptops, smartwatches, and more. Embrace innovation and tradition with our thoughtfully curated tech collection.</p>
+</div> -->
+
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+        >&times;</a
+      >
+      <a href="{% url 'index' %}">Home</a>
+      <a href="{% url 'shop_products' %}">Shop</a>
+      <div id="mySidenav">
+        <button class="dropdown-btn">
+          Categories
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+          {% for category in categories %}
+          <a href="{% url 'category_products' slug=category.slug %}">{{ category.name }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      <a href="#">Clients</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <div id="mySidenav">
+        <button class="dropdown-btn">
+          Accounts
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-container">
+          {% if request.user.is_authenticated %}
+          <a href="myprofile"><strong>{{ request.user.username }}</a>
+          <a href="{% url 'my_cart' %}">Cart</a>
+          <a href="{% url 'wishlist' %}">Wishlist</a>
+          <a href="{% url 'my_orders' %}">Orders</a>
+          <a href="{% url 'logout' %}">Logout</a>
+          <!-- If user is not logged in, show Login -->
+          {% else %}
+          <a href="{% url 'login' %}">Login</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Use any element to open the sidenav -->
+
+    <div class="navbar">
+      <div class="topnav">
+        <div id="menu-icon">
+          <span onclick="openNav()">&#9776;</span>
+        </div>
+        <!-- Centered link -->
+        <div class="topnav-centered">
+          <a href="{% url 'index' %}" class="active">Home</a>
+        </div>
+
+        <!-- Left-aligned links (default) -->
+        <a href="#contact">Contact</a>
+
+    <!-- Right-aligned links -->
+    <div class="topnav-right">
+      <a href="#about">About</a>
+        <!-- If user is not logged in, show Login -->
+        {% if request.user.is_authenticated %}
+        <p style="color: crimson">Logged in as: <strong style="color: chartreuse">{{ request.user.username }}</strong></p>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+    </div>
+  </div>
+  <div id="locationDisplay" class="location"></div>
+</div>
+
+
+    <section class="confirmation-section">
+        <div class="confirmation-container">
+            <div class="checkmark-container">
+                <div class="checkmark">
+                    ✓
+                </div>
+            </div>
+            <h2>Your order has been placed successfully!</h2>
+            <p>We will notify you once your order is shipped.</p>
+        </div>
+    </section>
+
+    <!-- Sound for confirmation -->
+    <audio id="confirmation-sound" src="{% static 'sounds/success.mp3' %}" preload="auto"></audio>
+
+
+
+
+    <section>
+      <div class="footer">
+        <p>&copy; 2025 Your Store. All rights reserved.</p>
+      </div>
+    </section>
+
+
+    <script>
+        // Play sound only if order is placed successfully
+        document.addEventListener('DOMContentLoaded', function () {
+            let sound = document.getElementById("confirmation-sound");
+            sound.play();
+        });
+    </script>
+
+    <!-- SCroll Menu bar Dropdown Function -->
+    <script>
+      /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+      var dropdown = document.getElementsByClassName("dropdown-btn");
+      var i;
+
+      for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function () {
+          this.classList.toggle("active");
+          var dropdownContent = this.nextElementSibling;
+          if (dropdownContent.style.display === "block") {
+            dropdownContent.style.display = "none";
+          } else {
+            dropdownContent.style.display = "block";
+          }
+        });
+      }
+    </script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pwEEGJSiWmRPOEaZK5Etdj4AqwwFmrZeT3gNN5t93xp9hwbp4RA2PoF2oWfHkOj9"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
