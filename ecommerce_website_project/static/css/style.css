@@ -1,0 +1,893 @@
+* {
+  box-sizing: border-box;
+}
+
+/* Style the body */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background-color: white;
+  color: black;
+}
+
+body .button{
+  background-color: #000;
+}
+
+body .button:hover{
+  opacity: 0.7;
+}
+
+.dark-mode {
+  background-color: black;
+  color: white;
+}
+
+/* Header/logo Title */
+.header {
+  padding: 80px;
+  text-align: center;
+  background: #ff6ea1;
+  color: rgb(255, 255, 255);
+  transition: all 0.5s ease; /* Smooth transition */
+}
+
+/* Hidden Header Style */
+.header.hide {
+  display: none; /* Hides the header completely */
+}
+
+/* Increase the font size of the heading */
+.header h1 {
+  font-size: 40px;
+}
+
+/* Style the top navigation bar */
+.navbar {
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+/* Style the navigation bar links */
+.navbar a {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 20px;
+  text-decoration: none;
+}
+
+/* Right-aligned link */
+.navbar a.right {
+  float: right;
+}
+
+/* Change color on hover */
+.navbar a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.location {
+  font-size: 1rem;
+  margin-left: 1rem;
+  color: white;
+}
+
+/* Column container */
+
+
+
+.topnav {
+    overflow: hidden;
+    background-color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    font-family: Arial, sans-serif;
+  }
+
+.topnav #menu-icon{
+    display:flow-root;
+    text-align: center;
+    flex-grow:inherit;
+    position: relative;
+    right: 7px;
+    width: 30px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 2;
+    color:#ddd
+}
+
+
+
+
+.topnav #menu-icon span{
+    position: absolute;
+    top: 9px;
+    left: 9px;
+    width: 50%;
+    height: 2px;
+}
+.topnav #menu-icon span:hover{
+    color: #96ca13;
+}
+  /* Links in the navbar */
+  .topnav a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: 0.3s;
+  }
+
+  /* Centered link container */
+  .topnav-centered {
+    flex-grow: 2;
+    display:flow-root;
+    text-align: center;
+  }
+
+  
+
+  /* Active link styling */
+  .topnav a.active {
+    background-color: #aa041a;
+    color: white;
+    border-radius: 3px;
+  }
+
+  /* Hover effect for links */
+  .topnav a:hover {
+    background-color: #96ca13;
+    color: black;
+    border-radius: 5px;
+  }
+
+  /* Right-aligned link container */
+  .topnav-right {
+    display: flex;
+    gap: 10px;
+  }
+
+/* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #111; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  }
+  
+  /* The navigation menu links */
+  .sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+  
+  /* When you mouse over the navigation links, change their color */
+  .sidenav a:hover {
+    color: #f1f1f1;
+  }
+  
+
+
+  /* Position and style the close button (top right corner) */
+  .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    color:#ddd;
+  }
+
+
+
+
+
+  .sidenav #mySidenav a, .dropdown-btn{
+      padding: 6px 8px 6px 33px;
+      text-decoration: none;
+      font-size: 20px;
+      color: #818181;
+      display: block;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      outline: none;
+  }
+  
+  .sidenav a:hover, .dropdown-btn:hover {
+      color: #aa041a;
+    }
+  
+  .sidenav #mySidenav a:hover, .dropdown-btn:hover {
+      color: #aa041a;
+  }
+    .active {
+      background-color: #96ca13;
+      color: #aa041a;
+    }
+  
+  .sidenav #mySidenav .dropdown-container {
+      display: none;
+      background-color: #262626;
+      padding-left: 8px;
+    }
+
+    .fa-caret-down {
+      float: right;
+      padding-right: 8px;
+    }
+    
+  /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+  #main {
+    transition: margin-left .5s;
+    padding: 20px;
+  }
+  
+  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+  }
+
+/* Main column */
+.main {   
+  -ms-flex: 70%; /* IE10 */
+  flex: 70%;
+  background-color: white;
+  padding: 20px;
+}
+
+/* Fake image */
+
+
+
+
+
+
+
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 10000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+/* Caption text */
+.text {
+  color: red !important;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #4514a6;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .prev, .next,.text {font-size: 11px}
+}
+
+
+
+
+
+
+
+
+/* Overall carousel container styling */
+#trending {
+padding: 50px 20px;
+background-color: #f9f9f9;
+}
+
+#trending-container {
+display: flex;
+align-items: center;
+position: relative;
+overflow: hidden;
+width: 100%;
+border-radius: 10px;
+}
+
+/* Horizontal scrolling container for cards */
+#trending-cards {
+display: inline-flex;
+overflow-x: auto; /* Enable horizontal scrolling */
+scroll-behavior: smooth; /* Smooth scroll for better UX */
+gap: 40px; /* Space between cards */
+padding: 20px;
+max-width: 92%;
+border-radius: 10px;
+margin-left: 60px;
+}
+
+#trend img {
+width: 100%;
+height: 230px;
+object-fit: cover;
+border-radius: 8px;
+margin-bottom: 1px;
+}
+
+#trend {
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+max-width: 410px;
+flex: 0 0 auto; /* Prevent shrinking, ensure fixed size */
+text-align: center;
+font-family: arial;
+border-radius: 10px;
+padding: 20px;
+}
+
+#trend:hover {
+transition: transform 0.3s, box-shadow 0.3s;
+box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+transform: translateY(-5px);
+}
+
+.price {
+color: grey;
+font-size: 22px;
+}
+
+#trend button {
+border: none;
+color: white;
+background-color: #000;
+text-align: center;
+cursor: pointer;
+font-size: 18px;
+padding: 10px 30px;
+border-radius: 5px;
+margin-top: 20px;
+}
+
+#trend button:hover {
+opacity: 0.7;
+}
+
+/* Styling for Scroll Buttons */
+.scroll-btn {
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+background-color: rgba(0, 0, 0, 0.5);
+color: white;
+border: none;
+font-size: 24px;
+padding: 10px;
+cursor: pointer;
+z-index: 10;
+}
+
+.scroll-btn:hover {
+background-color: rgba(0, 0, 0, 0.8);
+}
+
+.left {
+left: 10px;
+}
+
+.right {
+right: 10px;
+}
+
+
+/* Carousel buttons styling */
+.carousel-btn {
+background-color: rgba(0, 0, 0, 0.5);
+color: white;
+border: none;
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+z-index: 2;
+padding: 10px;
+cursor: pointer;
+font-size: 24px;
+
+}
+
+.carousel-btn.left-btn {
+left: 2px;
+}
+
+.carousel-btn.right-btn {
+right: 2px;
+}
+
+.carousel-btn:hover {
+background-color: rgba(0, 0, 0, 0.8);
+}
+
+
+.coupon {
+border: 5px dotted #bbb;
+width: 80%;
+bottom: 20%;
+border-radius: 15px;
+margin: 0 auto;
+max-width: 500px;
+}
+
+.container {
+padding: 2px 16px;
+bottom: 20%;
+background-color: #f1f1f1;
+}
+
+.promo {
+background: #ccc;
+padding: 3px;
+}
+
+.expire {
+color: red;
+}
+
+
+#myBtnRd{
+background-color: #000;
+color: white;
+border: none;
+position:static;
+left: 50%;
+bottom: 40%;
+transform: translateY(-20%);
+z-index: 2;
+padding: 10px;
+cursor: pointer;
+font-size: 17px;
+}
+
+
+
+#myBtnRd:hover {
+opacity: 0.7;
+}
+
+
+
+
+.featured-categories {
+padding: 40px 20px;
+background-color: #f9f9f9;
+}
+
+.categories-container {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 20px;
+max-width: 1200px;
+margin: 0 auto;
+}
+
+.category-card {
+background-color: white;
+border: 1px solid #ddd;
+border-radius: 10px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+text-align: center;
+padding: 20px;
+transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.category-card img {
+width: 100%;
+height: 126px;
+object-fit: cover;
+border-radius: 8px;
+margin-bottom: 16px;
+}
+
+.category-card h3 {
+font-size: 20px;
+margin: 10px 0;
+}
+
+.category-card button {
+background-color: #000;
+color: white;
+border: none;
+padding: 10px 20px;
+border-radius: 5px;
+cursor: pointer;
+font-size: 16px;
+}
+
+.category-card button:hover {
+opacity: 0.8;
+}
+
+.category-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+@media screen and (max-width: 600px) {
+.category-card {
+  padding: 15px;
+}
+
+.category-card h3 {
+  font-size: 18px;
+}
+
+.category-card button {
+  font-size: 14px;
+  padding: 8px 16px;
+}
+}
+
+
+
+
+#brand-offers {
+padding: 50px 20px;
+background-color: #f9f9f9;
+}
+
+
+.brand-offers {
+text-align: center;
+padding: 40px 20px;
+background-color: #f9f9f9;
+
+}
+
+.brand-offers h2 {
+font-size: 36px;
+color: #333;
+margin-bottom: 30px;
+}
+#card-container {
+display: flex;
+overflow-x: scroll; /* Enable horizontal scrolling */
+scroll-behavior: smooth; /* Smooth scrolling */
+gap: 20px; /* Space between cards */
+
+padding: 20px;
+max-width: 90%;
+border-radius: 10px;
+margin: 0 auto;
+
+/* Hide the scroll bar */
+scrollbar-width: none; /* For Firefox */
+-ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+#card-container::-webkit-scrollbar {
+display: none; /* For Chrome, Safari, and Opera */
+}
+
+#card1 {
+flex: 0 0 auto; /* Fixed width for horizontal scrolling */
+width: 300px;
+background: #f4f4f4;
+border-radius: 10px;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+text-align: center;
+padding: 10px;
+transition: transform 0.3s;
+}
+
+#card1:hover {
+transform: scale(1.05); /* Slight zoom effect on hover */
+cursor: pointer;
+}
+
+
+#card1 {
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+max-width: 300px;
+flex: 0 0 auto;
+text-align: center;
+font-family: Arial, sans-serif;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+cursor: pointer;
+}
+
+#card1:hover {
+transform: translateY(-10px);
+box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+#card1 img {
+width: 100%;
+height: auto;
+border-top-left-radius: 8px;
+border-top-right-radius: 8px;
+}
+
+#card1 h3 {
+font-size: 24px;
+margin: 10px 0;
+}
+
+#card1 .price {
+color: grey;
+font-size: 20px;
+}
+
+#card1 p {
+padding: 0 10px;
+font-size: 16px;
+color: #555;
+}
+
+#card1 button {
+border: none;
+outline: none;
+padding: 12px;
+background-color: #000;
+color: white;
+font-size: 18px;
+cursor: pointer;
+width: 100%;
+}
+
+#card1 button:hover {
+opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+#cardcontainer {
+    flex-direction: column;
+    align-items: center;
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Trending brand */
+
+#trending-brands {
+padding: 50px 20px;
+background-color: #f9f9f9;
+}
+
+
+.trending-brands {
+text-align: center;
+padding: 40px 20px;
+background-color: #f9f9f9;
+
+}
+
+.trending-brands h2 {
+font-size: 36px;
+color: #333;
+margin-bottom: 30px;
+}
+#cardcontainer {
+display: flex;
+overflow-x: scroll; /* Enable horizontal scrolling */
+scroll-behavior: smooth; /* Smooth scrolling */
+gap: 20px; /* Space between cards */
+padding: 20px;
+max-width: 90%;
+border-radius: 10px;
+margin: 0 auto;
+
+/* Hide the scroll bar */
+scrollbar-width: none; /* For Firefox */
+-ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+#cardcontainer::-webkit-scrollbar {
+display: none; /* For Chrome, Safari, and Opera */
+}
+
+#card2 {
+flex: 0 0 auto; /* Fixed width for horizontal scrolling */
+width: 300px;
+background: #f4f4f4;
+border-radius: 10px;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+text-align: center;
+padding: 10px;
+transition: transform 0.3s;
+}
+
+#card2:hover {
+transform: scale(1.05); /* Slight zoom effect on hover */
+cursor: pointer;
+}
+
+
+#card2{
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+max-width: 300px;
+flex: 0 0 auto;
+text-align: center;
+font-family: Arial, sans-serif;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+cursor: pointer;
+}
+
+#card2:hover {
+transform: translateY(-10px);
+box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+#card2 img {
+width: 100%;
+height: auto;
+border-top-left-radius: 8px;
+border-top-right-radius: 8px;
+}
+
+#card2 h3 {
+font-size: 24px;
+margin: 10px 0;
+}
+
+#card2 .price {
+color: grey;
+font-size: 20px;
+}
+
+#card2 p {
+padding: 0 10px;
+font-size: 16px;
+color: #555;
+}
+
+#card2 button {
+border: none;
+outline: none;
+padding: 12px;
+background-color: #000;
+color: white;
+font-size: 18px;
+cursor: pointer;
+width: 100%;
+}
+
+#card2 button:hover {
+opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+#cardcontainer {
+    flex-direction: column;
+    align-items: center;
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Footer */
+.footer {
+  padding: 20px;
+  text-align: center;
+  background: #ddd;
+}
+
+/* Responsive layout */
+@media screen and (max-width: 700px) {
+  .row {   
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .navbar a {
+    float: none;
+    width: 100%;
+  }
+}
